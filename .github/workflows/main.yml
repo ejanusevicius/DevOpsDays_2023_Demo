@@ -1,7 +1,7 @@
-name: Acquire activation file
+name: Continuous Integration
 on: [push]
 jobs:
-  ContinuousIntegration:
+  CI_Pipeline:
     name: Test
     runs-on: ubuntu-latest
     steps:
