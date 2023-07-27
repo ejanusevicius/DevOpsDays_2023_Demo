@@ -1,7 +1,7 @@
 name: Continuous Integration
 on: [push]
 jobs:
-  Test:
+  test:
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -14,20 +14,20 @@ jobs:
         with:
           projectPath: devopsdays_demo/
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-  BuildWindows:
-    name: Build (Windows)
-    needs: Test
-    runs-on: ubuntu-latest
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Build
-        uses: game-ci/unity-builder@v2
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: Windows
+  # buildWindows:
+  #   name: Build (Windows)
+  #   needs: Test
+  #   runs-on: ubuntu-latest
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+  #     - name: Build
+  #       uses: game-ci/unity-builder@v2
+  #       env:
+  #         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  #         UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  #         UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  #       with:
+  #         targetPlatform: Windows
   # BuildAndroid:
   #   name: Build (Android)
   #   needs: Test
