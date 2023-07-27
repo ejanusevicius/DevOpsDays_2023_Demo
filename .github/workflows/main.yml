@@ -1,10 +1,13 @@
 name: Acquire activation file
 on: [push]
 jobs:
-  test:
+  ContinuousIntegration:
     name: Test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run tests
       - uses: game-ci/unity-test-runner@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
