@@ -19,8 +19,10 @@ jobs:
     needs: Test
     runs-on: ubuntu-latest
     steps:
+      # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
+      # Build
       - name: Build
         uses: game-ci/unity-builder@v2
         env:
@@ -29,13 +31,22 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: Windows
+      # Expose build artifact
+      - name: Expose as artifact
+        uses: actions/upload-artifact@v2
+        with:
+        # FIX THIS
+          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
   buildAndroid:
     name: Build (Android)
     needs: Test
     runs-on: ubuntu-latest
     steps:
+      # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
+      # Build
       - name: Build
         uses: game-ci/unity-builder@v2
         env:
@@ -44,3 +55,10 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: Android
+      # Expose build artifact
+      - name: Expose as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          # FIX THIS
+          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
