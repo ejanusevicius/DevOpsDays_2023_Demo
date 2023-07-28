@@ -1,6 +1,7 @@
 name: Continuous Integration
 on: [push]
 jobs:
+
   # test:
   #   name: Test
   #   runs-on: ubuntu-latest
@@ -15,6 +16,7 @@ jobs:
   #       with:
   #         projectPath: devopsdays_demo/
   #         githubToken: ${{ secrets.GITHUB_TOKEN }}
+  
   buildWindows:
     name: Build (Windows)
     # needs: Test
@@ -23,6 +25,14 @@ jobs:
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
+      # Cache
+      - uses: actions/cache@v2
+        with:
+          path: devopsdays_demo/Library
+          key: Library-DevOpsDaysDemo-Windows
+          restore-keys: |
+            Library-MyProjectName-
+            Library-
       # Build
       - name: Build
         uses: game-ci/unity-builder@v2
@@ -48,6 +58,14 @@ jobs:
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
+      # Cache
+      - uses: actions/cache@v2
+        with:
+          path: devopsdays_demo/Library
+          key: Library-DevOpsDaysDemo-Android
+          restore-keys: |
+            Library-MyProjectName-
+            Library-
       # Build
       - name: Build
         uses: game-ci/unity-builder@v2
