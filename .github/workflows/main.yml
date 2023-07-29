@@ -44,8 +44,8 @@ jobs:
           targetPlatform: StandaloneWindows
           projectPath: devopsdays_demo/
       # Expose build artifact
-        name: Expose as artifact
-      - uses: actions/upload-artifact@v3
+      - name: Expose as artifact
+        uses: actions/upload-artifact@v3
         with:
           name: Build-StandaloneWindows
           path: build/StandaloneWindows
@@ -79,8 +79,8 @@ jobs:
           targetPlatform: Android
           projectPath: devopsdays_demo/
       # Expose build artifact
-        name: Expose as artifact
-      - uses: actions/upload-artifact@v3
+      - name: Expose as artifact
+        uses: actions/upload-artifact@v3
         with:
           name: Build-Android
           path: build/Android
