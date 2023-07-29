@@ -26,7 +26,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       # Cache
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: devopsdays_demo/Library
           key: Library-DevOpsDaysDemo-Windows
@@ -44,12 +44,11 @@ jobs:
           targetPlatform: StandaloneWindows
           projectPath: devopsdays_demo/
       # Expose build artifact
-      - name: Expose as artifact
-        uses: actions/upload-artifact@v2
+        name: Expose as artifact
+      - uses: actions/upload-artifact@v3
         with:
-        # FIX THIS
-          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          name: Build-StandaloneWindows
+          path: build/StandaloneWindows
   buildAndroid:
     name: Build (Android)
     # needs: Test
@@ -59,7 +58,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       # Cache
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: devopsdays_demo/Library
           key: Library-DevOpsDaysDemo-Android
@@ -77,9 +76,8 @@ jobs:
           targetPlatform: Android
           projectPath: devopsdays_demo/
       # Expose build artifact
-      - name: Expose as artifact
-        uses: actions/upload-artifact@v2
+        name: Expose as artifact
+      - uses: actions/upload-artifact@v3
         with:
-          # FIX THIS
-          name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-          path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+          name: Build-Android
+          path: build/Android
