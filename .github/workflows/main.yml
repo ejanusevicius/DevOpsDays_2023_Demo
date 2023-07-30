@@ -6,8 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
+      # Checkout
       - name: Checkout repository
         uses: actions/checkout@v3
+      # Cache
+      - uses: actions/cache@v3
+        with:
+          path: devopsdays_demo/Library
+          key: Library-DevOpsDaysDemo-Windows
+          restore-keys: |
+            Library-MyProjectName-
+            Library-
+      # Test
       - name: Run tests
         uses: game-ci/unity-test-runner@v2
         env:
@@ -15,6 +25,12 @@ jobs:
         with:
           projectPath: devopsdays_demo/
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+      # Expose coverage report as an artifact
+      - name: Expose as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Build-Android
+          path: build/Android
   buildWindows:
     if: contains(github.ref, 'release/')
     name: Build (Windows)
