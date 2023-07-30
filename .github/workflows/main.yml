@@ -13,9 +13,8 @@ jobs:
       - uses: actions/cache@v3
         with:
           path: devopsdays_demo/Library
-          key: Library-DevOpsDaysDemo-Windows
+          key: Library-DevOpsDaysDemo-Test
           restore-keys: |
-            Library-MyProjectName-
             Library-
       # Test
       - name: Run tests
@@ -29,10 +28,11 @@ jobs:
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Build-Android
-          path: build/Android
+          name: TestCoverage-${{ github.ref_name }}-${{ github.sha }}
+          # name: Build-Android
+          path: artifacts/
   buildWindows:
-    if: contains(github.ref, 'release/')
+    # if: contains(github.ref, 'release/')
     name: Build (Windows)
     # needs: Test
     runs-on: ubuntu-latest
@@ -46,7 +46,6 @@ jobs:
           path: devopsdays_demo/Library
           key: Library-DevOpsDaysDemo-Windows
           restore-keys: |
-            Library-MyProjectName-
             Library-
       # Build
       - name: Build
@@ -62,10 +61,11 @@ jobs:
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Build-StandaloneWindows64
+          # name: Build-StandaloneWindows64
+          name: Build-${{ github.ref_name }}-${{ github.sha }}-StandaloneWindows64
           path: build/StandaloneWindows64
   buildAndroid:
-    if: contains(github.ref, 'release/')
+    # if: contains(github.ref, 'release/')
     name: Build (Android)
     # needs: Test
     runs-on: ubuntu-latest
@@ -79,7 +79,6 @@ jobs:
           path: devopsdays_demo/Library
           key: Library-DevOpsDaysDemo-Android
           restore-keys: |
-            Library-MyProjectName-
             Library-
       # Free up disk space (Android only)
       - name: Free-up disk space (for Android only)
@@ -98,5 +97,5 @@ jobs:
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Build-Android
+          name: Build-${{ github.ref_name }}-${{ github.sha }}-Android
           path: build/Android
