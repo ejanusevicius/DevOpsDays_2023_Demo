@@ -61,8 +61,7 @@ jobs:
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
         with:
-          # name: Build-StandaloneWindows64
-          name: Build-${{ github.ref_name }}-${{ github.sha }}-StandaloneWindows64
+          name: Build-StandaloneWindows64-${{ github.sha }}-${{ github.ref_name }}
           path: build/StandaloneWindows64
   buildAndroid:
     # if: contains(github.ref, 'release-')
@@ -97,5 +96,5 @@ jobs:
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Build-${{ github.ref_name }}-${{ github.sha }}-Android
+          name: Build-Android-${{ github.sha }}-${{ github.ref_name }}
           path: build/Android
