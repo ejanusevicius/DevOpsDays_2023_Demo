@@ -32,7 +32,7 @@ jobs:
           # name: Build-Android
           path: artifacts/
   buildWindows:
-    # if: contains(github.ref, 'release/')
+    # if: contains(github.ref, 'release-')
     name: Build (Windows)
     # needs: Test
     runs-on: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
           name: Build-${{ github.ref_name }}-${{ github.sha }}-StandaloneWindows64
           path: build/StandaloneWindows64
   buildAndroid:
-    # if: contains(github.ref, 'release/')
+    # if: contains(github.ref, 'release-')
     name: Build (Android)
     # needs: Test
     runs-on: ubuntu-latest
