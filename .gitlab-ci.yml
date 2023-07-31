@@ -22,6 +22,7 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
     - cd ci
     - ls
     - cd ..
+    - echo $UNITY_LICENSE
     - chmod +x ./ci/before-script.sh && ./ci/before-script.sh
   needs:
     - job: get-unity-version
