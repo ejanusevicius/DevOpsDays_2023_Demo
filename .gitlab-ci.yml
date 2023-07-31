@@ -30,8 +30,12 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
     # - *license
 
 .build: &build
-  stage: build
   <<: *unity_defaults
+  stage: build
+  needs: 
+  - job: test
+  - job: get-unity-version
+    artifacts: true
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
   artifacts:
@@ -63,22 +67,13 @@ test:
     - chmod +x ./ci/build.sh && ./ci/build.sh
 
 build:windows:
-  stage: build
   <<: *build
-  needs: 
-    - job: test
-    - job: get-unity-version
-      artifacts: true
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build:android:
   stage: build
   <<: *build
-  needs: 
-    - job: test
-    - job: get-unity-version
-      artifacts: true
   variables:
     BUILD_TARGET: Android
 
