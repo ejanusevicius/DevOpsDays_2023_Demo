@@ -7,6 +7,7 @@ stages:
 variables:
   UNITY_CI_IMAGE: unityci/editor
   IMAGE_VERSION: 1
+  UNITY_DIR: devopsdays_demo
 
 image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 
