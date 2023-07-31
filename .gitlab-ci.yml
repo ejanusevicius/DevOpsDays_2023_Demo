@@ -9,27 +9,27 @@ test:
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
 
-buildWindows:
+build:windows:
   stage: build
-  needs: test
+  needs: [test]
   script:
     - echo "Building for Windows"
 
-buildAndroid:
+build:android:
   stage: build
-  needs: test
+  needs: [test]
   script:
     - echo "Building for Android"
 
 exposeWindowsArtifact:
   stage: artifact
-  needs: buildWindows
+  needs: [build:windows]
   script:
     - echo "Exposing build artifact for Windows"
   
 exposeAndroidArtifact:
   stage: artifact
-  needs: buildAndroid
+  needs: [build:android]
   script:
     - echo "Exposing build artifact for Android"
 
