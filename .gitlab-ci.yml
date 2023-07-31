@@ -76,6 +76,10 @@ test:
       artifacts: true
   script:
     - chmod +x ./ci/test.sh && ./ci/test.sh
+  variables:
+    TEST_PLATFORM: playmode
+    TESTING_TYPE: JUNIT
+
 
 build:windows:
   stage: build
