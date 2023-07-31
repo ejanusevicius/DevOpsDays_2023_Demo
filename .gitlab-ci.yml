@@ -83,7 +83,6 @@ build:windows:
     BUILD_TARGET: StandaloneWindows64
 
 build:android:
-  stage: build
   <<: *build
   variables:
     BUILD_TARGET: Android
