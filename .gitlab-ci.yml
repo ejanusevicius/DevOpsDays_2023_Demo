@@ -29,6 +29,12 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
   tags:
     - gitlab-org
 
+.unity_defaults: &unity_defaults
+  <<:
+    - *unity_before_script
+    # - *cache
+    # - *license
+
 get-unity-version:
   image: alpine
   stage: prepare
