@@ -25,31 +25,49 @@ get-unity-version:
 
 test:
   stage: test
-  needs: [get-unity-version]
+  needs:
+    - job: get-unity-version
+      artifacts: true
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
 
 build:windows:
   stage: build
-  needs: [test]
+  needs: 
+    - job: test
+    - job: get-unity-version
+      artifacts: true
   script:
     - echo "Building for Windows"
 
 build:android:
   stage: build
-  needs: [test]
+  needs: 
+    - job: test
+    - job: get-unity-version
+      artifacts: true
   script:
     - echo "Building for Android"
 
 expose-artifact:windows:
   stage: artifact
-  needs: [build:windows]
+  needs:
+    - job: test
+    - job: build:windows
+      artifacts: true
+    - job: get-unity-version
+      artifacts: true
   script:
     - echo "Exposing build artifact for Windows"
   
 expose-artifact:android:
   stage: artifact
-  needs: [build:android]
+  needs:
+    - job: test
+    - job: build:android
+      artifacts: true
+    - job: get-unity-version
+      artifacts: true
   script:
     - echo "Exposing build artifact for Android"
 
