@@ -78,11 +78,13 @@ test:
     - chmod +x ./ci/test.sh && ./ci/test.sh
 
 build:windows:
+  stage: build
   <<: *build
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build:android:
+  stage: build
   <<: *build
   variables:
     BUILD_TARGET: Android
