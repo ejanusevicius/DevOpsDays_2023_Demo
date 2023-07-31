@@ -3,6 +3,11 @@ stages:
   - build
   - artifact
 
+variables:
+  UNITY_CI_IMAGE: unityci/editor
+  VERSION: latest
+
+image: $UNITY_CI_IMAGE:$VERSION
 
 test:
   stage: test
