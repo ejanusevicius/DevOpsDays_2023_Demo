@@ -9,8 +9,20 @@ variables:
 
 image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 
+get-unity-version:
+  image: alpine
+  stage: prepare
+  variables:
+    GIT_DEPTH: 1
+  script:
+    - echo UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
+  artifacts:
+    reports:
+      dotenv: prepare.env
+
 test:
   stage: test
+  needs: [get-unity-version]
   script:
     - echo "Hello, $GITLAB_USER_LOGIN!"
 
@@ -26,13 +38,13 @@ build:android:
   script:
     - echo "Building for Android"
 
-exposeWindowsArtifact:
+expose-artifact:windows:
   stage: artifact
   needs: [build:windows]
   script:
     - echo "Exposing build artifact for Windows"
   
-exposeAndroidArtifact:
+expose-artifact:android:
   stage: artifact
   needs: [build:android]
   script:
