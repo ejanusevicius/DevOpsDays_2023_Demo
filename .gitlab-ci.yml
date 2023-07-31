@@ -29,6 +29,22 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
     paths:
       - $UNITY_DIR/Library/
 
+
+.test: &test
+  stage: build_and_test
+  <<: *unity_defaults
+  script:
+    - chmod +x ./ci/test.sh && ./ci/test.sh
+  artifacts:
+    when: always
+    expire_in: 2 weeks
+  # https://gitlab.com/gableroux/unity3d-gitlab-ci-example/-/issues/83
+  # you may need to remove or replace these to fit your need if you are using your own runners
+  tags:
+    - gitlab-org
+  coverage: /<Linecoverage>(.*?)</Linecoverage>/
+
+
 # .license: &license
 #   rules:
 #     - if: '$UNITY_LICENSE != null'
@@ -69,16 +85,26 @@ get-unity-version:
     reports:
       dotenv: prepare.env
 
-test:
-  stage: test
+# Tests without junit reporting results in GitLab
+test-playmode:
+  <<: *test
   needs:
     - job: get-unity-version
       artifacts: true
-  script:
-    - chmod +x ./ci/test.sh && ./ci/test.sh
   variables:
     TEST_PLATFORM: playmode
-    TESTING_TYPE: JUNIT
+    TESTING_TYPE: NUNIT
+
+test-editmode:
+  <<: *test
+  needs:
+    - job: get-unity-version
+      artifacts: true
+  variables:
+    TEST_PLATFORM: editmode
+    TESTING_TYPE: NUNIT
+
+
 
 
 build:windows:
@@ -96,7 +122,7 @@ build:android:
 expose-artifact:windows:
   stage: artifact
   needs:
-    - job: test
+    # - job: test
     - job: build:windows
       artifacts: true
     - job: get-unity-version
@@ -107,7 +133,7 @@ expose-artifact:windows:
 expose-artifact:android:
   stage: artifact
   needs:
-    - job: test
+    # - job: test
     - job: build:android
       artifacts: true
     - job: get-unity-version
