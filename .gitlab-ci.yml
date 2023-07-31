@@ -18,6 +18,7 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 
 .unity_before_script: &unity_before_script
   before_script:
+    - ls
     - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
   needs:
     - job: get-unity-version
@@ -104,39 +105,39 @@ test-editmode:
     TESTING_TYPE: NUNIT
 
 
+# ----------------------------------------------
 
+# build:windows:
+#   stage: build
+#   <<: *build
+#   variables:
+#     BUILD_TARGET: StandaloneWindows64
 
-build:windows:
-  stage: build
-  <<: *build
-  variables:
-    BUILD_TARGET: StandaloneWindows64
+# build:android:
+#   stage: build
+#   <<: *build
+#   variables:
+#     BUILD_TARGET: Android
 
-build:android:
-  stage: build
-  <<: *build
-  variables:
-    BUILD_TARGET: Android
-
-expose-artifact:windows:
-  stage: artifact
-  needs:
-    # - job: test
-    - job: build:windows
-      artifacts: true
-    - job: get-unity-version
-      artifacts: true
-  script:
-    - echo "Exposing build artifact for Windows"
+# expose-artifact:windows:
+#   stage: artifact
+#   needs:
+#     # - job: test
+#     - job: build:windows
+#       artifacts: true
+#     - job: get-unity-version
+#       artifacts: true
+#   script:
+#     - echo "Exposing build artifact for Windows"
   
-expose-artifact:android:
-  stage: artifact
-  needs:
-    # - job: test
-    - job: build:android
-      artifacts: true
-    - job: get-unity-version
-      artifacts: true
-  script:
-    - echo "Exposing build artifact for Android"
+# expose-artifact:android:
+#   stage: artifact
+#   needs:
+#     # - job: test
+#     - job: build:android
+#       artifacts: true
+#     - job: get-unity-version
+#       artifacts: true
+#   script:
+#     - echo "Exposing build artifact for Android"
 
