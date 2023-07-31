@@ -23,11 +23,11 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
     - job: get-unity-version
       artifacts: true
 
-# .cache: &cache
-#   cache:
-#     key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
-#     paths:
-#       - $UNITY_DIR/Library/
+.cache: &cache
+  cache:
+    key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
+    paths:
+      - $UNITY_DIR/Library/
 
 # .license: &license
 #   rules:
@@ -37,7 +37,7 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 .unity_defaults: &unity_defaults
   <<:
     - *unity_before_script
-    # - *cache
+    - *cache
     # - *license
 
 .build: &build
