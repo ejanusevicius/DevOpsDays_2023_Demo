@@ -41,7 +41,7 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
     # - *license
 
 .test: &test
-  stage: build_and_test
+  stage: test
   <<: *unity_defaults
   script:
     - chmod +x ./ci/test.sh && ./ci/test.sh
