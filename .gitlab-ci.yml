@@ -5,9 +5,9 @@ stages:
 
 variables:
   UNITY_CI_IMAGE: unityci/editor
-  VERSION: 1
+  IMAGE_VERSION: 1
 
-image: $UNITY_CI_IMAGE:$VERSION
+image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 
 test:
   stage: test
