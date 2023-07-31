@@ -5,7 +5,7 @@ stages:
 
 variables:
   UNITY_CI_IMAGE: unityci/editor
-  VERSION: latest
+  VERSION: 1
 
 image: $UNITY_CI_IMAGE:$VERSION
 
