@@ -33,16 +33,16 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
     paths:
       - $UNITY_DIR/Library/
 
-# .license: &license
-#   rules:
-#     - if: '$UNITY_LICENSE != null'
-#       when: always
+.license: &license
+  rules:
+    - if: '$UNITY_LICENSE != null'
+      when: always
 
 .unity_defaults: &unity_defaults
   <<:
     - *unity_before_script
     - *cache
-    # - *license
+    - *license
 
 .test: &test
   stage: test
