@@ -42,7 +42,7 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
   <<:
     - *unity_before_script
     - *cache
-    - *license
+    # - *license
 
 .test: &test
   stage: test
