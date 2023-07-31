@@ -37,8 +37,8 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 .unity_defaults: &unity_defaults
   <<:
     - *unity_before_script
-    - *cache
-    - *license
+    # - *cache
+    # - *license
 
 .build: &build
   <<: *unity_defaults
