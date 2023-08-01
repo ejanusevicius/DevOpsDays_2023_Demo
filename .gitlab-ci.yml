@@ -105,11 +105,13 @@ test:editmode:
 
 build:Android:
   <<: *build
+  needs: [test:playmode, test:editmode]
   variables:
     BUILD_TARGET: Android
 
 build:Windows:
   <<: *build
+  needs: [test:playmode, test:editmode]
   variables:
     BUILD_TARGET: StandaloneWindows64
 
