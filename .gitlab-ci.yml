@@ -7,7 +7,7 @@ stages:
 variables:
   UNITY_CI_IMAGE: unityci/editor
   IMAGE_VERSION: 1
-  UNITY_DIR: devopsdays_demo
+  UNITY_DIR: $CI_PROJECT_DIR/devopsdays_demo
   BUILD_NAME: ExampleProjectName
   UNITY_ACTIVATION_FILE: ./unity3d.alf
   # You can expose this in Unity via Application.version
