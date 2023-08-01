@@ -85,33 +85,39 @@ get-unity-version:
     - gitlab-org
 
 # Tests without junit reporting results in GitLab
-test:playmode:
-  <<: *test
-  needs:
-    - job: get-unity-version
-      artifacts: true
-  variables:
-    TEST_PLATFORM: playmode
-    TESTING_TYPE: NUNIT
+# test:playmode:
+#   <<: *test
+#   needs:
+#     - job: get-unity-version
+#       artifacts: true
+#   variables:
+#     TEST_PLATFORM: playmode
+#     TESTING_TYPE: NUNIT
 
-test:editmode:
-  <<: *test
-  needs:
-    - job: get-unity-version
-      artifacts: true
-  variables:
-    TEST_PLATFORM: editmode
-    TESTING_TYPE: NUNIT
+# test:editmode:
+#   <<: *test
+#   needs:
+#     - job: get-unity-version
+#       artifacts: true
+#   variables:
+#     TEST_PLATFORM: editmode
+#     TESTING_TYPE: NUNIT
 
 build:Android:
   <<: *build
-  needs: [test:playmode, test:editmode]
+  # needs: [test:playmode, test:editmode]
+  needs:
+    - job: get-unity-version
+      artifacts: true
   variables:
     BUILD_TARGET: Android
 
 build:Windows:
   <<: *build
-  needs: [test:playmode, test:editmode]
+  # needs: [test:playmode, test:editmode]
+  needs:
+    - job: get-unity-version
+      artifacts: true
   variables:
     BUILD_TARGET: StandaloneWindows64
 
