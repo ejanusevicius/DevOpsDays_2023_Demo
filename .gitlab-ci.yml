@@ -71,8 +71,21 @@ get-unity-version:
     - gitlab-org
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
 
+.build: &build
+  stage: build
+  <<: *unity_defaults
+  script:
+    - chmod +x ./ci/build.sh && ./ci/build.sh
+  artifacts:
+    paths:
+      - $UNITY_DIR/Builds/
+  # https://gitlab.com/gableroux/unity3d-gitlab-ci-example/-/issues/83
+  # you may need to remove or replace these to fit your need if you are using your own runners
+  tags:
+    - gitlab-org
+
 # Tests without junit reporting results in GitLab
-test-playmode:
+test:playmode:
   <<: *test
   needs:
     - job: get-unity-version
@@ -81,7 +94,7 @@ test-playmode:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
-test-editmode:
+test:editmode:
   <<: *test
   needs:
     - job: get-unity-version
@@ -89,6 +102,17 @@ test-editmode:
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
+
+build:Android:
+  <<: *build
+  variables:
+    BUILD_TARGET: Android
+
+build:Windows:
+  <<: *build
+  variables:
+    BUILD_TARGET: StandaloneWindows64
+
 
 # ----------------------------------------------
 
