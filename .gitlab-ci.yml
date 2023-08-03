@@ -8,7 +8,6 @@ variables:
   UNITY_CI_IMAGE: unityci/editor
   IMAGE_VERSION: 1
   UNITY_DIR: $CI_PROJECT_DIR/devopsdays_demo
-  BUILD_NAME: ExampleProjectName
   UNITY_ACTIVATION_FILE: ./unity3d.alf
   # You can expose this in Unity via Application.version
   VERSION_NUMBER_VAR: $CI_COMMIT_REF_SLUG-$CI_PIPELINE_ID-$CI_JOB_ID
@@ -30,11 +29,6 @@ get-unity-version:
 
 .unity_before_script: &unity_before_script
   before_script:
-    - ls
-    - cd ci
-    - ls
-    - cd ..
-    - echo $UNITY_LICENSE
     - chmod +x ./ci/before-script.sh && ./ci/before-script.sh
   needs:
     - job: get-unity-version
@@ -84,36 +78,18 @@ get-unity-version:
   tags:
     - gitlab-org
 
-# Tests without junit reporting results in GitLab
-# test:playmode:
-#   <<: *test
+# build:android:
+#   <<: *build
+#   # needs: [test:playmode, test:editmode]
+#   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
 #   needs:
 #     - job: get-unity-version
 #       artifacts: true
 #   variables:
-#     TEST_PLATFORM: playmode
-#     TESTING_TYPE: NUNIT
+#     BUILD_TARGET: Android
+#     BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
 
-# test:editmode:
-#   <<: *test
-#   needs:
-#     - job: get-unity-version
-#       artifacts: true
-#   variables:
-#     TEST_PLATFORM: editmode
-#     TESTING_TYPE: NUNIT
-
-build:Android:
-  <<: *build
-  # needs: [test:playmode, test:editmode]
-  image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
-  needs:
-    - job: get-unity-version
-      artifacts: true
-  variables:
-    BUILD_TARGET: Android
-
-build:Windows:
+build:windows:
   <<: *build
   # needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
@@ -122,59 +98,4 @@ build:Windows:
       artifacts: true
   variables:
     BUILD_TARGET: StandaloneWindows64
-
-
-# ----------------------------------------------
-
-# .build: &build
-#   <<: *unity_defaults
-#   stage: build
-#   needs: 
-#   - job: test-editmode
-#   - job: test-playmode
-#   - job: get-unity-version
-#     artifacts: true
-#   script:
-#     - chmod +x ./ci/build.sh && ./ci/build.sh
-#   artifacts:
-#     paths:
-#       - $UNITY_DIR/Builds/
-#   # https://gitlab.com/gableroux/unity3d-gitlab-ci-example/-/issues/83
-#   # you may need to remove or replace these to fit your need if you are using your own runners
-#   tags:
-#     - gitlab-org
-
-# build:windows:
-#   stage: build
-#   <<: *build
-#   variables:
-#     BUILD_TARGET: StandaloneWindows64
-
-# build:android:
-#   stage: build
-#   <<: *build
-#   variables:
-#     BUILD_TARGET: Android
-
-# expose-artifact:windows:
-#   stage: artifact
-#   needs:
-#     # - job: test
-#     - job: build:windows
-#       artifacts: true
-#     - job: get-unity-version
-#       artifacts: true
-#   script:
-#     - echo "Exposing build artifact for Windows"
-  
-# expose-artifact:android:
-#   stage: artifact
-#   needs:
-#     # - job: test
-#     - job: build:android
-#       artifacts: true
-#     - job: get-unity-version
-#       artifacts: true
-#   script:
-#     - echo "Exposing build artifact for Android"
-
+    BUILD_NAME: Build-StandaloneWindows64-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
