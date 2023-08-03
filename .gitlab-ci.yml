@@ -106,7 +106,7 @@ get-unity-version:
 build:Android:
   <<: *build
   # needs: [test:playmode, test:editmode]
-  image: $IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
+  image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   needs:
     - job: get-unity-version
       artifacts: true
@@ -116,7 +116,7 @@ build:Android:
 build:Windows:
   <<: *build
   # needs: [test:playmode, test:editmode]
-  image: $IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
+  image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   needs:
     - job: get-unity-version
       artifacts: true
