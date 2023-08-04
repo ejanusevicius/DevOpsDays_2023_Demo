@@ -1,7 +1,7 @@
 stages:
-  - prepare
-  - test
-  - build
+  - Prepare
+  - Test
+  - Build
 
 variables:
   UNITY_CI_IMAGE: unityci/editor
@@ -17,7 +17,7 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 # Prepare
 get-unity-version:
   image: alpine
-  stage: prepare
+  stage: Prepare
   variables:
     GIT_DEPTH: 1
   script:
@@ -53,7 +53,8 @@ get-unity-version:
 
 # Test
 .test: &test
-  stage: test
+  stage: Test
+  needs: [Prepare]
   <<: *unity_defaults
   script:
     - chmod +x ./ci/test.sh && ./ci/test.sh
@@ -68,25 +69,25 @@ get-unity-version:
 
 test:playmode:
   <<: *test
-  # needs:
-  #   - job: get-unity-version
-  #     artifacts: true
+  needs:
+    - job: get-unity-version
+      artifacts: true
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
 test:editmode:
   <<: *test
-  # needs:
-  #   - job: get-unity-version
-  #     artifacts: true
+  needs:
+    - job: get-unity-version
+      artifacts: true
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
 
 # Build
 .build: &build
-  stage: build
+  stage: Build
   <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
@@ -100,7 +101,7 @@ test:editmode:
 
 build:android:
   <<: *build
-  needs: [test:playmode, test:editmode, get-unity-version]
+  needs: [Test]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   # needs:
   #   - job: get-unity-version
@@ -111,7 +112,7 @@ build:android:
 
 build:windows:
   <<: *build
-  needs: [test:playmode, test:editmode, get-unity-version]
+  needs: [Test]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   # needs:
   #   - job: get-unity-version
