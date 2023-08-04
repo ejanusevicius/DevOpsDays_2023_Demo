@@ -100,7 +100,7 @@ test:editmode:
 
 build:android:
   <<: *build
-  needs: [test:playmode, test:editmode]
+  needs: [test:playmode, test:editmode, get-unity-version]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   # needs:
   #   - job: get-unity-version
@@ -111,7 +111,7 @@ build:android:
 
 build:windows:
   <<: *build
-  needs: [test:playmode, test:editmode]
+  needs: [test:playmode, test:editmode, get-unity-version]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   # needs:
   #   - job: get-unity-version
