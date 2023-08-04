@@ -53,7 +53,7 @@ get-unity-version:
 
 # Test
 .test: &test
-  stage: Test
+  stage: Test-Stage
   needs: [Prepare]
   <<: *unity_defaults
   script:
