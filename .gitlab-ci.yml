@@ -40,16 +40,16 @@ get-unity-version:
     paths:
       - $UNITY_DIR/Library/
 
-# .license: &license
-#   rules:
-#     - if: '$UNITY_LICENSE != null'
-#       when: always
+.license: &license
+  rules:
+    - if: '$UNITY_LICENSE != null'
+      when: always
 
 .unity_defaults: &unity_defaults
   <<:
     - *unity_before_script
     - *cache
-    # - *license
+    - *license
 
 .test: &test
   stage: test
@@ -78,24 +78,24 @@ get-unity-version:
   tags:
     - gitlab-org
 
-# build:android:
-#   <<: *build
-#   # needs: [test:playmode, test:editmode]
-#   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
-#   needs:
-#     - job: get-unity-version
-#       artifacts: true
-#   variables:
-#     BUILD_TARGET: Android
-#     BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
+build:android:
+  <<: *build
+  needs: [test:playmode, test:editmode]
+  image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
+  # needs:
+  #   - job: get-unity-version
+  #     artifacts: true
+  variables:
+    BUILD_TARGET: Android
+    BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
 
 build:windows:
   <<: *build
-  # needs: [test:playmode, test:editmode]
+  needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
-  needs:
-    - job: get-unity-version
-      artifacts: true
+  # needs:
+  #   - job: get-unity-version
+  #     artifacts: true
   variables:
     BUILD_TARGET: StandaloneWindows64
     BUILD_NAME: Build-StandaloneWindows64-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
