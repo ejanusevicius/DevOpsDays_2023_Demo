@@ -2,7 +2,6 @@ stages:
   - prepare
   - test
   - build
-  - artifact
 
 variables:
   UNITY_CI_IMAGE: unityci/editor
