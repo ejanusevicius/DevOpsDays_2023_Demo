@@ -100,7 +100,7 @@ test:editmode:
 
 build:android:
   <<: *build
-  needs: [test]
+  needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   # needs:
   #   - job: get-unity-version
