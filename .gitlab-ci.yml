@@ -82,18 +82,18 @@ get-unity-version:
 # Test
 test:playmode:
   <<: *test
-  needs:
-    - job: get-unity-version
-      artifacts: true
+  # needs:
+  #   - job: get-unity-version
+  #     artifacts: true
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
 test:editmode:
   <<: *test
-  needs:
-    - job: get-unity-version
-      artifacts: true
+  # needs:
+  #   - job: get-unity-version
+  #     artifacts: true
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
@@ -101,7 +101,7 @@ test:editmode:
 # Build
 build:android:
   <<: *build
-  needs: [test:playmode, test:editmode]
+  # needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   # needs:
   #   - job: get-unity-version
@@ -112,7 +112,7 @@ build:android:
 
 build:windows:
   <<: *build
-  needs: [test:playmode, test:editmode]
+  # needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   # needs:
   #   - job: get-unity-version
