@@ -69,18 +69,18 @@ get-unity-version:
 
 test:playmode:
   <<: *test
-  needs:
-    - job: get-unity-version
-      artifacts: true
+  # needs:
+  #   - job: get-unity-version
+  #     artifacts: true
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
 test:editmode:
   <<: *test
-  needs:
-    - job: get-unity-version
-      artifacts: true
+  # needs:
+  #   - job: get-unity-version
+  #     artifacts: true
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
