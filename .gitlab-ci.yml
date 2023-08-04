@@ -15,6 +15,7 @@ variables:
 
 image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 
+# Prepare
 get-unity-version:
   image: alpine
   stage: prepare
@@ -78,6 +79,26 @@ get-unity-version:
   tags:
     - gitlab-org
 
+# Test
+test:playmode:
+  <<: *test
+  needs:
+    - job: get-unity-version
+      artifacts: true
+  variables:
+    TEST_PLATFORM: playmode
+    TESTING_TYPE: NUNIT
+
+test:editmode:
+  <<: *test
+  needs:
+    - job: get-unity-version
+      artifacts: true
+  variables:
+    TEST_PLATFORM: editmode
+    TESTING_TYPE: NUNIT
+
+# Build
 build:android:
   <<: *build
   needs: [test:playmode, test:editmode]
