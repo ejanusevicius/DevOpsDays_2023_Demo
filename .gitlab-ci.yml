@@ -48,7 +48,7 @@ get-unity-version:
   <<:
     - *unity_before_script
     - *cache
-    # - *license
+    - *license
 
 # run this job when you need to request a license
 # you may need to follow activation steps from documentation
