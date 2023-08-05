@@ -1,7 +1,7 @@
-stages:
-  - prepare
-  - test_and_build
-  # - build
+# stages:
+#   - prepare
+#   - test_and_build
+#   # - build
 
 variables:
   UNITY_CI_IMAGE: unityci/editor
@@ -49,7 +49,7 @@ get-unity-version:
   <<:
     - *unity_before_script
     - *cache
-    - *license
+    # - *license
 
 # run this job when you need to request a license
 # you may need to follow activation steps from documentation
