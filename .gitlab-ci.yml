@@ -25,9 +25,6 @@ get-unity-version:
   artifacts:
     reports:
       dotenv: prepare.env
-  rules:
-    - if: '$UNITY_LICENSE != null'
-      when: always
 
 .unity_before_script: &unity_before_script
   before_script:
@@ -42,10 +39,16 @@ get-unity-version:
     paths:
       - $UNITY_DIR/Library/
 
+.license: &license
+  rules:
+    - if: '$UNITY_LICENSE != null'
+      when: always
+
 .unity_defaults: &unity_defaults
   <<:
     - *unity_before_script
     - *cache
+    # - *license
 
 # run this job when you need to request a license
 # you may need to follow activation steps from documentation
