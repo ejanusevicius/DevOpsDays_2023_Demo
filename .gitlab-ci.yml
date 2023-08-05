@@ -17,7 +17,7 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 # Prepare
 get-unity-version:
   image: alpine
-  # stage: prepare
+  stage: .pre
   variables:
     GIT_DEPTH: 1
   script:
@@ -68,7 +68,7 @@ get-activation-file:
 
 # Test
 .test: &test
-  stage: test_and_build
+  stage: test
   <<: *unity_defaults
   script:
     - chmod +x ./ci/test.sh && ./ci/test.sh
@@ -95,7 +95,7 @@ test:editmode:
 
 # Build
 .build: &build
-  stage: test_and_build
+  stage: build
   <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
