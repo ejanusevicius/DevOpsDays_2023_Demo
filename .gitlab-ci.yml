@@ -68,8 +68,8 @@ get-activation-file:
 # Test
 .test: &test
   stage: test_and_build
-  <<: *unity_defaults
   script:
+    - <<: *unity_defaults
     - chmod +x ./ci/test.sh && ./ci/test.sh
   artifacts:
     when: always
@@ -95,8 +95,8 @@ test:editmode:
 # Build
 .build: &build
   stage: test_and_build
-  <<: *unity_defaults
   script:
+    - <<: *unity_defaults
     - chmod +x ./ci/build.sh && ./ci/build.sh
   artifacts:
     paths:
