@@ -49,7 +49,22 @@ get-unity-version:
   <<:
     - *unity_before_script
     - *cache
-    # - *license
+    - *license
+
+# run this job when you need to request a license
+# you may need to follow activation steps from documentation
+get-activation-file:
+  <<: *unity_before_script
+  rules:
+    - if: '$UNITY_LICENSE == null'
+      when: manual
+  stage: prepare
+  script:
+    - chmod +x ./ci/get_activation_file.sh && ./ci/get_activation_file.sh
+  artifacts:
+    paths:
+      - $UNITY_ACTIVATION_FILE
+    expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
 
 # Test
 .test: &test
@@ -68,18 +83,12 @@ get-unity-version:
 
 test:playmode:
   <<: *test
-  needs:
-    - job: get-unity-version
-      artifacts: true
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
 test:editmode:
   <<: *test
-  needs:
-    - job: get-unity-version
-      artifacts: true
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
@@ -100,22 +109,14 @@ test:editmode:
 
 build:android:
   <<: *build
-  # needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
-  needs:
-    - job: get-unity-version
-      artifacts: true
   variables:
     BUILD_TARGET: Android
     BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
 
 build:windows:
   <<: *build
-  # needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
-  needs:
-    - job: get-unity-version
-      artifacts: true
   variables:
     BUILD_TARGET: StandaloneWindows64
     BUILD_NAME: Build-StandaloneWindows64-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
