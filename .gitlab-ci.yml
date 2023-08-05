@@ -49,7 +49,7 @@ get-unity-version:
   <<:
     - *unity_before_script
     - *cache
-    - *license
+    # - *license
 
 # run this job when you need to request a license
 # you may need to follow activation steps from documentation
@@ -82,12 +82,14 @@ get-activation-file:
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
 
 test:playmode:
+  <<: *license
   <<: *test
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
 test:editmode:
+  <<: *license
   <<: *test
   variables:
     TEST_PLATFORM: editmode
@@ -96,6 +98,7 @@ test:editmode:
 # Build
 .build: &build
   stage: build
+  <<: *license
   <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
@@ -108,6 +111,7 @@ test:editmode:
     - gitlab-org
 
 build:android:
+  <<: *license
   <<: *build
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   variables:
@@ -115,6 +119,7 @@ build:android:
     BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
 
 build:windows:
+  <<: *license
   <<: *build
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   variables:
