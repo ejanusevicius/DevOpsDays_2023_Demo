@@ -68,18 +68,18 @@ get-unity-version:
 
 test:playmode:
   <<: *test
-  # needs:
-  #   - job: get-unity-version
-  #     artifacts: true
+  needs:
+    - job: get-unity-version
+      artifacts: true
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
 test:editmode:
   <<: *test
-  # needs:
-  #   - job: get-unity-version
-      # artifacts: true
+  needs:
+    - job: get-unity-version
+      artifacts: true
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
@@ -102,9 +102,9 @@ build:android:
   <<: *build
   # needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
-  # needs:
-  #   - job: get-unity-version
-  #     artifacts: true
+  needs:
+    - job: get-unity-version
+      artifacts: true
   variables:
     BUILD_TARGET: Android
     BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
@@ -113,9 +113,9 @@ build:windows:
   <<: *build
   # needs: [test:playmode, test:editmode]
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
-  # needs:
-  #   - job: get-unity-version
-  #     artifacts: true
+  needs:
+    - job: get-unity-version
+      artifacts: true
   variables:
     BUILD_TARGET: StandaloneWindows64
     BUILD_NAME: Build-StandaloneWindows64-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
