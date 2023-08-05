@@ -1,7 +1,6 @@
-# stages:
-#   - prepare
-#   - test_and_build
-#   # - build
+stages:
+  - prepare
+  - test_and_build
 
 variables:
   UNITY_CI_IMAGE: unityci/editor
@@ -17,7 +16,7 @@ image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 # Prepare
 get-unity-version:
   image: alpine
-  stage: .pre
+  stage: prepare
   variables:
     GIT_DEPTH: 1
   script:
@@ -55,7 +54,6 @@ get-unity-version:
 # you may need to follow activation steps from documentation
 get-activation-file:
   <<: *unity_before_script
-  stage: .pre
   rules:
     - if: '$UNITY_LICENSE == null'
       when: manual
@@ -69,7 +67,7 @@ get-activation-file:
 
 # Test
 .test: &test
-  stage: test
+  stage: test_and_build
   <<: *unity_defaults
   script:
     - chmod +x ./ci/test.sh && ./ci/test.sh
@@ -96,7 +94,7 @@ test:editmode:
 
 # Build
 .build: &build
-  stage: build
+  stage: test_and_build
   <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
