@@ -82,11 +82,11 @@ get-activation-file:
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
 
 test:playmode:
-  <<: *license
   <<: *test
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
+  <<: *license
 
 test:editmode:
   <<: *license
@@ -98,7 +98,6 @@ test:editmode:
 # Build
 .build: &build
   stage: build
-  <<: *license
   <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
@@ -109,19 +108,20 @@ test:editmode:
   # you may need to remove or replace these to fit your need if you are using your own runners
   tags:
     - gitlab-org
+  <<: *license
 
 build:android:
-  <<: *license
   <<: *build
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
   variables:
     BUILD_TARGET: Android
     BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
+  <<: *license
 
 build:windows:
-  <<: *license
   <<: *build
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   variables:
     BUILD_TARGET: StandaloneWindows64
     BUILD_NAME: Build-StandaloneWindows64-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
+  <<: *license
