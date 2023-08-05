@@ -55,6 +55,7 @@ get-unity-version:
 # you may need to follow activation steps from documentation
 get-activation-file:
   <<: *unity_before_script
+  stage: .pre
   rules:
     - if: '$UNITY_LICENSE == null'
       when: manual
