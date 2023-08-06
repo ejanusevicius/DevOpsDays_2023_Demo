@@ -120,14 +120,6 @@ build:windows:
     BUILD_TARGET: StandaloneWindows64
     BUILD_NAME: Build-StandaloneWindows64-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
 
-# workflow:
-#   rules:
-#     - if: $CI_MERGE_REQUEST_ID
-#       when: never
-#     - if: $CI_COMMIT_TAG
-#       when: never
-#     - when: always
-
 workflow:
   rules:
     - if: '$CI_MERGE_REQUEST_ID || $CI_COMMIT_TAG'
