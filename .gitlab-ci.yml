@@ -8,7 +8,6 @@ variables:
   IMAGE_VERSION: 1
   UNITY_DIR: $CI_PROJECT_DIR/devopsdays_demo
   UNITY_ACTIVATION_FILE: ./unity3d.alf
-  # You can expose this in Unity via Application.version
   VERSION_NUMBER_VAR: $CI_COMMIT_REF_SLUG-$CI_PIPELINE_ID-$CI_JOB_ID
   VERSION_BUILD_VAR: $CI_PIPELINE_IID
 
@@ -64,7 +63,7 @@ get-activation-file:
   artifacts:
     paths:
       - $UNITY_ACTIVATION_FILE
-    expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
+    expire_in: 10 min
 
 # Test
 .test: &test
