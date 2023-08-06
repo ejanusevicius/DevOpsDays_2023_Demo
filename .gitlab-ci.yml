@@ -1,7 +1,7 @@
 stages:
   - prepare
-  - build_and_test
-  - deploy
+  - test
+  - build
 
 # If you are looking for a place where to add 'UNITY_LICENSE_FILE' and other secrets, please visit your project's gitlab page:
 # settings > CI/CD > Variables instead
@@ -68,7 +68,7 @@ get-activation-file:
     expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
 
 .test: &test
-  stage: build_and_test
+  stage: test
   <<: *unity_defaults
   script:
     - chmod +x ./ci/test.sh && ./ci/test.sh
@@ -95,7 +95,7 @@ test-editmode:
     TESTING_TYPE: NUNIT
 
 .build: &build
-  stage: build_and_test
+  stage: build
   <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
