@@ -2,7 +2,7 @@ name: Continuous Integration
 on: [push]
 jobs:
   test_playmode_and_editmode:
-    name: Test
+    name: Test (Editmode & Playmode)
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
