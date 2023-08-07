@@ -109,6 +109,8 @@ test:editmode:
 build:android:
   <<: *build
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
+  timeout: 2h 30m
+  needs: [test:editmode, test:playmode]
   variables:
     BUILD_TARGET: Android
     BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
@@ -116,6 +118,7 @@ build:android:
 build:windows:
   <<: *build
   image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
+  needs: [test:editmode, test:playmode]
   variables:
     BUILD_TARGET: StandaloneWindows64
     BUILD_NAME: Build-StandaloneWindows64-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
