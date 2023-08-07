@@ -32,7 +32,7 @@ jobs:
           # name: Build-Android
           path: artifacts/
   build:windows:
-    needs: [test:playmode:editmode]
+    needs: test:playmode:editmode
     # if: contains(github.ref, 'release-')
     name: Build (Windows)
     # needs: Test
@@ -67,7 +67,7 @@ jobs:
           path: build/StandaloneWindows64
   build:android:
     # if: contains(github.ref, 'release-')
-    needs: [test:playmode:editmode]
+    needs: test:playmode:editmode
     name: Build (Android)
     # needs: Test
     runs-on: ubuntu-latest
