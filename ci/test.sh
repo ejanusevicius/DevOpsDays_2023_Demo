@@ -15,10 +15,10 @@ ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x2
   -logFile /dev/stdout \
   -batchmode \
   -nographics \
-  -enableCodeCoverage \
-  -coverageResultsPath $UNITY_DIR/$TEST_PLATFORM-coverage \
-  -coverageOptions "generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport;" \
   -debugCodeOptimization
+  # -enableCodeCoverage \
+  # -coverageResultsPath $UNITY_DIR/$TEST_PLATFORM-coverage \
+  # -coverageOptions "generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport;" \
 
 UNITY_EXIT_CODE=$?
 
