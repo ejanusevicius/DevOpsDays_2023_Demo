@@ -57,6 +57,7 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
           projectPath: devopsdays_demo/
+          buildName: Build-StandaloneWindows64-${{ github.sha }}=${{ github.ref_name }}
       # Expose build artifact
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
@@ -92,6 +93,7 @@ jobs:
         with:
           targetPlatform: Android
           projectPath: devopsdays_demo/
+          buildName: Build-Android-${{ github.sha }}=${{ github.ref_name }}
       # Expose build artifact
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
