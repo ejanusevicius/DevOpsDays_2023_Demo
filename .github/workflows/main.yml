@@ -1,7 +1,7 @@
 name: Continuous Integration
 on: [push]
 jobs:
-  test:
+  test:playmode:editmode:
     name: Test
     runs-on: ubuntu-latest
     permissions: write-all
@@ -31,7 +31,8 @@ jobs:
           name: TestCoverage-${{ github.ref_name }}-${{ github.sha }}
           # name: Build-Android
           path: artifacts/
-  buildWindows:
+  build:windows:
+    needs: [test:playmode:editmode]
     # if: contains(github.ref, 'release-')
     name: Build (Windows)
     # needs: Test
@@ -64,8 +65,9 @@ jobs:
         with:
           name: Build-StandaloneWindows64-${{ github.sha }}-${{ github.ref_name }}
           path: build/StandaloneWindows64
-  buildAndroid:
+  build:android:
     # if: contains(github.ref, 'release-')
+    needs: [test:playmode:editmode]
     name: Build (Android)
     # needs: Test
     runs-on: ubuntu-latest
