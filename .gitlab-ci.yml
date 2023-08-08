@@ -1,0 +1,134 @@
+stages:
+  - prepare
+  - test
+  - build
+
+variables:
+  UNITY_CI_IMAGE: unityci/editor
+  IMAGE_VERSION: 1
+  UNITY_DIR: $CI_PROJECT_DIR/devopsdays_demo
+  UNITY_ACTIVATION_FILE: ./unity3d.alf
+  VERSION_NUMBER_VAR: $CI_COMMIT_REF_SLUG-$CI_PIPELINE_ID-$CI_JOB_ID
+  VERSION_BUILD_VAR: $CI_PIPELINE_IID
+
+image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
+
+# Prepare
+get-unity-version:
+  image: alpine
+  stage: prepare
+  variables:
+    GIT_DEPTH: 1
+  script:
+    - echo $CI_PROJECT_DIR
+    - echo UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
+  artifacts:
+    reports:
+      dotenv: prepare.env
+
+.unity_before_script: &unity_before_script
+  before_script:
+    - chmod +x ./ci/before-script.sh && ./ci/before-script.sh
+  needs:
+    - job: get-unity-version
+      artifacts: true
+
+.cache: &cache
+  cache:
+    key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
+    paths:
+      - $UNITY_DIR/Library/
+
+.license: &license
+  rules:
+    - if: '$UNITY_LICENSE != null'
+      when: always
+
+.unity_defaults: &unity_defaults
+  <<:
+    - *unity_before_script
+    - *cache
+    - *license
+
+# run this job when you need to request a license
+# you may need to follow activation steps from documentation
+get-activation-file:
+  <<: *unity_before_script
+  rules:
+    - if: '$UNITY_LICENSE == null'
+      when: manual
+  stage: prepare
+  script:
+    - chmod +x ./ci/get_activation_file.sh && ./ci/get_activation_file.sh
+  artifacts:
+    paths:
+      - $UNITY_ACTIVATION_FILE
+    expire_in: 10 min
+
+# Test
+.test: &test
+  stage: test
+  <<: *unity_defaults
+  script:
+    - chmod +x ./ci/test.sh && ./ci/test.sh
+  artifacts:
+    when: always
+    expire_in: 2 weeks
+  # https://gitlab.com/gableroux/unity3d-gitlab-ci-example/-/issues/83
+  # you may need to remove or replace these to fit your need if you are using your own runners
+  tags:
+    - gitlab-org
+  coverage: /<Linecoverage>(.*?)</Linecoverage>/
+
+test:playmode:
+  <<: *test
+  variables:
+    TEST_PLATFORM: playmode
+    TESTING_TYPE: NUNIT
+
+test:editmode:
+  <<: *test
+  variables:
+    TEST_PLATFORM: editmode
+    TESTING_TYPE: NUNIT
+
+# Build
+.build: &build
+  stage: build
+  <<: *unity_defaults
+  script:
+    - chmod +x ./ci/build.sh && ./ci/build.sh
+  artifacts:
+    paths:
+      - $UNITY_DIR/Builds/
+  # https://gitlab.com/gableroux/unity3d-gitlab-ci-example/-/issues/83
+  # you may need to remove or replace these to fit your need if you are using your own runners
+  tags:
+    - gitlab-org
+
+build:android:
+  <<: *build
+  image: $UNITY_CI_IMAGE:$UNITY_VERSION-android-$IMAGE_VERSION
+  timeout: 2h 30m
+  needs: [get-unity-version, test:editmode, test:playmode]
+  variables:
+    BUILD_TARGET: Android
+    BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
+  tags:
+    - saas-linux-medium-amd64
+  
+
+build:windows:
+  <<: *build
+  image: $UNITY_CI_IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
+  needs: [get-unity-version, test:editmode, test:playmode]
+  variables:
+    BUILD_TARGET: StandaloneWindows64
+    BUILD_NAME: Build-StandaloneWindows64-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
+
+workflow:
+  rules:
+    - if: '$CI_MERGE_REQUEST_ID || $CI_COMMIT_TAG'
+      when: never
+    - if: '$CI_COMMIT_BRANCH =~ /^release-.*$/ || $CI_COMMIT_BRANCH == "master"'
+      when: always
