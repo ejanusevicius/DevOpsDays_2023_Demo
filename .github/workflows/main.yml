@@ -1,8 +1,8 @@
 name: Continuous Integration
 on: [push]
 jobs:
-  test:
-    name: Test
+  test_playmode_and_editmode:
+    name: Test (Editmode & Playmode)
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
@@ -31,7 +31,8 @@ jobs:
           name: TestCoverage-${{ github.ref_name }}-${{ github.sha }}
           # name: Build-Android
           path: artifacts/
-  buildWindows:
+  build_windows:
+    needs: test_playmode_and_editmode
     # if: contains(github.ref, 'release-')
     name: Build (Windows)
     # needs: Test
@@ -57,14 +58,16 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
           projectPath: devopsdays_demo/
+          buildName: Build-StandaloneWindows64-${{ github.sha }}=${{ github.ref_name }}
       # Expose build artifact
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
         with:
           name: Build-StandaloneWindows64-${{ github.sha }}-${{ github.ref_name }}
           path: build/StandaloneWindows64
-  buildAndroid:
+  build_android:
     # if: contains(github.ref, 'release-')
+    needs: test_playmode_and_editmode
     name: Build (Android)
     # needs: Test
     runs-on: ubuntu-latest
@@ -92,6 +95,7 @@ jobs:
         with:
           targetPlatform: Android
           projectPath: devopsdays_demo/
+          buildName: Build-Android-${{ github.sha }}=${{ github.ref_name }}
       # Expose build artifact
       - name: Expose as artifact
         uses: actions/upload-artifact@v3
