@@ -115,7 +115,7 @@ build:android:
     BUILD_TARGET: Android
     BUILD_NAME: Build-Android-$CI_COMMIT_SHORT_SHA-$CI_COMMIT_REF_NAME
   tags:
-    - saas-linux-small-amd64
+    - saas-linux-medium-amd64
   
 
 build:windows:
