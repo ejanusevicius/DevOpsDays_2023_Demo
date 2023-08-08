@@ -1,0 +1,5 @@
+pipeline:
+  - step:
+    name: "Test"
+    script:
+      - echo "Hello world"
