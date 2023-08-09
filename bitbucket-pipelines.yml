@@ -2,27 +2,38 @@ image: atlassian/default-image:3
 
 pipelines:
   default:
+    # Stage: Prepare
     - step:
-        name: "Get unity version"
+        name: Get unity version
         script:
           - echo "Fetching unity version"
 
-    - step:
-        name: "Test (Playmode)"
-        script:
-          - echo "Playmode testing goes here"
-
-    - step:
-        name: "Test (Editmode)"
-        script:
-          - echo "Editmode testing goes here"
-
-    - step:
-        name: "Build (Windows)"
-        script:
-          - echo "Build for windows goes here"
-    
-    - step:
-        name: "Build (Android)"
-        script:
-          - echo "Build for android goes here"
+    # Stage: Test
+    - parallel:
+      - step:
+          name: Test (Playmode)
+          script:
+            - echo "Playmode testing goes here"
+          depends:
+            - Get unity version
+      - step:
+          name: Test (Editmode)
+          script:
+            - echo "Editmode testing goes here"
+          depends:
+            - Get unity version
+            
+    # Stage: Build
+    - parallel:
+      - step:
+          name: Build (Windows)
+          script:
+            - echo "Build for windows goes here"
+          depends:
+            - Test (Playmode)
+            - Test (Editmode)
+      
+      - step:
+          name: Build (Android)
+          script:
+            - echo "Build for android goes here"
