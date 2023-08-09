@@ -4,28 +4,22 @@ definitions:
   variables:
     UNITY_CI_IMAGE: unityci/editor
     IMAGE_VERSION: 1
+    UNITY_VERSION: 2022.3.5f1
     
 pipelines:
   default:
     # Stage: Prepare
     - step:
-        name: Get unity version
-        # image: UNITY_CI_IMAGE
+        name: Set up environment variables
         script:
-          - export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo
-          # - echo UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
-          - echo "export UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}')" >> export.sh
-
-          - echo "export MY_VARIABLE=value" >> export.sh
+          - echo "export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo" >> export.sh
+          # - echo "export UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}')" >> export.sh
           - cat export.sh
-          - echo "export ANOTHER_VARIABLE=another_value" >> export.sh
-          - cat export.sh
-
     # Stage: Test
     - parallel:
       - step:
           name: Test (Playmode)
-          # image: 
+          image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
           script:
             - echo "Playmode testing goes here"
             - echo $UNITY_VERSION
