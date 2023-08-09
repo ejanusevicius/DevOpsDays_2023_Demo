@@ -4,6 +4,7 @@ definitions:
   variables:
     UNITY_CI_IMAGE: unityci/editor
     IMAGE_VERSION: 1
+    UNITY_DIR: $BITBUCKET_CLONE_DIR/devopsdays_demo
     
 pipelines:
   default:
@@ -13,7 +14,8 @@ pipelines:
         # image: UNITY_CI_IMAGE
         script:
           - echo "Fetching unity version"
-          - ls
+          - echo "Project dir $BITBUCKET_CLONE_DIR"
+          - echo "Unity dir $UNITY_DIR"
 
     # Stage: Test
     - parallel:
