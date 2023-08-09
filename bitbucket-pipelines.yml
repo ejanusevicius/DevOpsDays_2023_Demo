@@ -21,6 +21,7 @@ pipelines:
           # image: 
           script:
             - echo "Playmode testing goes here"
+            - echo $UNITY_VERSION
           depends:
             - Get unity version
       - step:
