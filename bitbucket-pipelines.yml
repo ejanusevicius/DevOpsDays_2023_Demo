@@ -14,6 +14,12 @@ pipelines:
         script:
           - export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo
           - echo UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
+
+          - echo "export MY_VARIABLE=value" >> export.sh
+          - cat export.sh
+          - echo "export ANOTHER_VARIABLE=another_value" >> export.sh
+          - cat export.sh
+
     # Stage: Test
     - parallel:
       - step:
