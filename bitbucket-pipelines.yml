@@ -1,17 +1,25 @@
 image: atlassian/default-image:3
 
+definitions:
+  variables:
+    UNITY_CI_IMAGE: unityci/editor
+    IMAGE_VERSION: 1
+    
 pipelines:
   default:
     # Stage: Prepare
     - step:
         name: Get unity version
+        image: UNITY_CI_IMAGE
         script:
           - echo "Fetching unity version"
+          - ls
 
     # Stage: Test
     - parallel:
       - step:
           name: Test (Playmode)
+          image: 
           script:
             - echo "Playmode testing goes here"
           depends:
