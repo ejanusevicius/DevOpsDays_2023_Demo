@@ -14,8 +14,8 @@ definitions:
         name: Build & Deploy to Test
         # image: unityci/editor:2022.3.5f1-base-1
         script:
-            - echo Testing Platform $TEST_PLATFORM"
-            - echo Testing Type $TESTING_TYPE"
+            - echo "Testing Platform $TEST_PLATFORM"
+            - echo "Testing Type $TESTING_TYPE"
 
 pipelines:
   default:
