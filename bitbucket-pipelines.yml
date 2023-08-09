@@ -4,7 +4,6 @@ definitions:
   variables:
     UNITY_CI_IMAGE: unityci/editor
     IMAGE_VERSION: 1
-    UNITY_DIR: $BITBUCKET_CLONE_DIR/devopsdays_demo
     
 pipelines:
   default:
@@ -13,10 +12,9 @@ pipelines:
         name: Get unity version
         # image: UNITY_CI_IMAGE
         script:
-          - echo "Fetching unity version"
-          - echo "Project dir $BITBUCKET_CLONE_DIR"
-          - echo "Unity dir $UNITY_DIR"
-
+          - export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo
+          - echo "$UNITY_DIR"
+          # - echo UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}') | tee prepare.env
     # Stage: Test
     - parallel:
       - step:
