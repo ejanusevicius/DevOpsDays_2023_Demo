@@ -5,7 +5,18 @@ definitions:
     UNITY_CI_IMAGE: unityci/editor
     IMAGE_VERSION: 1
     UNITY_VERSION: 2022.3.5f1
-    
+  steps:
+    - step: &import_env
+        name: Import environment variables
+        script:
+          - chmod +x ./ci/test.sh && ./ci/test.sh
+    - step: &test
+        name: Build & Deploy to Test
+        # image: unityci/editor:2022.3.5f1-base-1
+        script:
+            - echo Testing Platform $TEST_PLATFORM"
+            - echo Testing Type $TESTING_TYPE"
+
 pipelines:
   default:
     # Stage: Prepare
@@ -15,20 +26,23 @@ pipelines:
           - echo "export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo" >> export.sh
           # - echo "export UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}')" >> export.sh
           - cat export.sh
+
     # Stage: Test
     - parallel:
       - step:
+          <<: *test
           name: Test (Playmode)
-          image: unityci/editor:2022.3.5f1-base-1
-          script:
-            - echo "Playmode testing goes here"
-            - echo $UNITY_VERSION
+          variables:
+            TEST_PLATFORM: playmode
+            TESTING_TYPE: NUNIT
           depends:
             - Get unity version
       - step:
+          <<: *test
           name: Test (Editmode)
-          script:
-            - echo "Editmode testing goes here"
+          variables:
+            TEST_PLATFORM: editmode
+            TESTING_TYPE: NUNIT
           depends:
             - Get unity version
             
@@ -36,6 +50,7 @@ pipelines:
     - parallel:
       - step:
           name: Build (Windows)
+          # image: unityci/editor:2022.3.5f1-windows-mono-1
           script:
             - echo "Build for windows goes here"
           depends:
@@ -44,5 +59,9 @@ pipelines:
       
       - step:
           name: Build (Android)
+          # image: unityci/editor:2022.3.5f1-android-1
           script:
             - echo "Build for android goes here"
+          depends:
+            - Test (Playmode)
+            - Test (Editmode)
