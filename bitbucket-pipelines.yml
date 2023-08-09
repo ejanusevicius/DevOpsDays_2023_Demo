@@ -10,7 +10,7 @@ pipelines:
     # Stage: Prepare
     - step:
         name: Get unity version
-        image: UNITY_CI_IMAGE
+        # image: UNITY_CI_IMAGE
         script:
           - echo "Fetching unity version"
           - ls
@@ -19,7 +19,7 @@ pipelines:
     - parallel:
       - step:
           name: Test (Playmode)
-          image: 
+          # image: 
           script:
             - echo "Playmode testing goes here"
           depends:
