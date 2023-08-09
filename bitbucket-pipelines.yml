@@ -32,7 +32,7 @@ pipelines:
       - step:
           <<: *test
           name: Test (Playmode)
-          variables:
+          environment:
             TEST_PLATFORM: playmode
             TESTING_TYPE: NUNIT
           depends:
@@ -40,7 +40,7 @@ pipelines:
       - step:
           <<: *test
           name: Test (Editmode)
-          variables:
+          environment:
             TEST_PLATFORM: editmode
             TESTING_TYPE: NUNIT
           depends:
