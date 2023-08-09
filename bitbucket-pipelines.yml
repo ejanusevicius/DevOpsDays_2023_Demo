@@ -19,7 +19,7 @@ pipelines:
     - parallel:
       - step:
           name: Test (Playmode)
-          image: $UNITY_CI_IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
+          image: unityci/editor:2022.3.5f1-base-1
           script:
             - echo "Playmode testing goes here"
             - echo $UNITY_VERSION
