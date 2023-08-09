@@ -32,6 +32,10 @@ pipelines:
       - step:
           <<: *test
           name: Test (Playmode)
+          script:
+            - echo "Testing Platform $TEST_PLATFORM"
+            - echo "Testing Type $TESTING_TYPE"
+            # - chmod +x ./ci/test.sh && ./ci/test.sh
           environment:
             TEST_PLATFORM: playmode
             TESTING_TYPE: NUNIT
