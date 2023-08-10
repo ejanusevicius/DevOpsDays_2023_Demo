@@ -7,7 +7,7 @@ definitions:
     UNITY_VERSION: 2022.3.5f1
   scripts: 
     common_scripts: &common_scripts
-      - echo "This is a shared script."
+      echo "This is a shared script."
   
   # steps:
   #   - step: &unity_before_script
@@ -18,6 +18,10 @@ definitions:
   #         - echo "Before script done."
   #   - step: &set_up_environment
   #     - source export.sh
+
+commonScript: &commonScript
+  script:
+    - echo "common script"
 
 
 pipelines:
@@ -40,7 +44,7 @@ pipelines:
           name: Test (Playmode)
           image: unityci/editor:2022.3.5f1-base-1
           script:
-            - *common_scripts
+            - *common_scripts  # Correct syntax to include the common scripts
       - step:
           name: Test (Editmode)
           # image: unityci/editor:2022.3.5f1-base-1
