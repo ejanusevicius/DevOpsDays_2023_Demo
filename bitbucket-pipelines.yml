@@ -24,34 +24,39 @@ pipelines:
         name: Set up environment variables
         script:
           - echo "export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo" >> export.sh
-          # - echo "export UNITY_VERSION=$(cat $UNITY_DIR/ProjectSettings/ProjectVersion.txt | grep "m_EditorVersion:.*" | awk '{ print $2}')" >> export.sh
+          - echo "export CI_PROJECT_DIR=$BITBUCKET_CLONE_DIR" >> export.sh
+          - echo "export CI_PROJECT_NAME=$BITBUCKET_REPO_FULL_NAME" >> export.sh
+          - echo "Environment variables have been set-up"
           - cat export.sh
-
+          artifacts: # define the artifacts to be passed to each future step
+            - export.sh
     # Stage: Test
     - parallel:
       - step:
-          <<: *test
           name: Test (Playmode)
+          # image: unityci/editor:2022.3.5f1-base-1
           script:
+            - cat set_env.sh 
             - export TEST_PLATFORM=playmode
             - export TESTING_TYPE=NUNIT
-            - echo "Testing Platform $TEST_PLATFORM"
-            - echo "Testing Type $TESTING_TYPE"
+            # UNITY_DIR
+            # CI_PROJECT_DIR
+            # CI_PROJECT_NAME
             # - chmod +x ./ci/test.sh && ./ci/test.sh
-          environment:
-            TEST_PLATFORM: playmode
-            TESTING_TYPE: NUNIT
           depends:
             - Get unity version
+
       - step:
-          <<: *test
           name: Test (Editmode)
-          environment:
-            TEST_PLATFORM: editmode
-            TESTING_TYPE: NUNIT
+          # image: unityci/editor:2022.3.5f1-base-1
+          script:
+            - cat set_env.sh 
+            - export TEST_PLATFORM=editmode
+            - export TESTING_TYPE=NUNIT
+            # - chmod +x ./ci/test.sh && ./ci/test.sh
           depends:
             - Get unity version
-            
+
     # Stage: Build
     - parallel:
       - step:
