@@ -41,9 +41,9 @@ pipelines:
           name: Test (Playmode)
           image: unityci/editor:2022.3.5f1-base-1
           script:
+            - *common_scripts
             - export TEST_PLATFORM=playmode
             - export TESTING_TYPE=NUNIT
-            # - *common_scripts
             # - *set_up_environment
             # - *unity_before_script
             # - chmod +x ./ci/test.sh && ./ci/test.sh
