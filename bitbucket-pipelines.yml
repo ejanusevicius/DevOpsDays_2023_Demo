@@ -6,8 +6,9 @@ definitions:
     IMAGE_VERSION: 1
     UNITY_VERSION: 2022.3.5f1
 
-  scripts: &common_scripts
-    - echo "This is a shared script."
+  scripts: 
+    common_scripts: &common_scripts
+      - echo "This is a shared script."
   
   # steps:
   #   - step: &unity_before_script
