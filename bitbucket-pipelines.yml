@@ -28,8 +28,8 @@ pipelines:
           - echo "export CI_PROJECT_NAME=$BITBUCKET_REPO_FULL_NAME" >> export.sh
           - echo "Environment variables have been set-up"
           - cat export.sh
-          artifacts: # define the artifacts to be passed to each future step
-            - export.sh
+        artifacts: # define the artifacts to be passed to each future step
+          - export.sh
     # Stage: Test
     - parallel:
       - step:
