@@ -43,10 +43,10 @@ pipelines:
             - export TESTING_TYPE=NUNIT
             - chmod +x ./ci/test.sh && ./ci/test.sh
 
-      # - step:
-      #     name: Test (Editmode)
+      - step:
+          name: Test (Editmode)
           # image: unityci/editor:2022.3.5f1-base-1
-          # <<: *unity_before_script
+          <<: *unity_before_script
           # script:
           #   - source export.sh 
           #   - export TEST_PLATFORM=editmode
