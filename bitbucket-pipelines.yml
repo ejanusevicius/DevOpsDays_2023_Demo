@@ -16,6 +16,12 @@ definitions:
         script:
             - echo "Testing Platform $TEST_PLATFORM"
             - echo "Testing Type $TESTING_TYPE"
+    - step: &unity_before_script
+        name: Unity before script
+        script:
+          - echo "Running the before script..."
+          - chmod +x ./ci/before-script.sh && ./ci/before-script.sh
+          - echo "Before script done."
 
 pipelines:
   default:
@@ -35,6 +41,7 @@ pipelines:
       - step:
           name: Test (Playmode)
           image: unityci/editor:2022.3.5f1-base-1
+          <<: *unity_before_script
           script:
             - source export.sh 
             - export TEST_PLATFORM=playmode
@@ -46,6 +53,7 @@ pipelines:
       - step:
           name: Test (Editmode)
           # image: unityci/editor:2022.3.5f1-base-1
+          <<: *unity_before_script
           script:
             - source export.sh 
             - export TEST_PLATFORM=editmode
