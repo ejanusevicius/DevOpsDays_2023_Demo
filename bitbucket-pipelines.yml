@@ -56,7 +56,7 @@ pipelines:
       - step:
           name: Build (Android)
           image: unityci/editor:2022.3.5f1-android-1
-          size: medium
+          size: 2x
           script:
             - *unity_before_script
             - *import_env_variables
