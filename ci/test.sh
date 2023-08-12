@@ -7,6 +7,9 @@ echo "Testing for $TEST_PLATFORM, Unit Type: $TESTING_TYPE"
 CODE_COVERAGE_PACKAGE="com.unity.testtools.codecoverage"
 PACKAGE_MANIFEST_PATH="Packages/manifest.json"
 
+echo "$UNITY_EXECUTABLE"
+ls
+
 ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' unity-editor} \
   -projectPath $UNITY_DIR \
   -runTests \
