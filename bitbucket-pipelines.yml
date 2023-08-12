@@ -56,6 +56,8 @@ pipelines:
           script:
             - *unity_before_script
             - cat /root/.local/share/unity3d/Unity/Unity_lic.ulf
+            - cd /root/.local/share/unity3d/Unity/
+            - ls
             - *import_env_variables
             - export TEST_PLATFORM=editmode
             - export TESTING_TYPE=NUNIT
