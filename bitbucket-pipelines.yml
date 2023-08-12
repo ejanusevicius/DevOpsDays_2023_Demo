@@ -16,6 +16,8 @@ definitions:
       chmod +x ./ci/test.sh && ./ci/test.sh
     run_build: &run_build
       chmod +x ./ci/build.sh && ./ci/build.sh
+  caches:
+    unity_cache: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
 
 pipelines:
   default:
@@ -30,11 +32,13 @@ pipelines:
         artifacts:
           - environment_setup.sh
 
-    # # Stage: Test
+    # Stage: Test
     # - parallel:
     #   - step:
     #       name: Test (Playmode)
     #       image: unityci/editor:2022.3.5f1-base-1
+    #       caches:
+    #         - unity_cache
     #       script:
     #         - *unity_before_script
     #         - *import_env_variables
@@ -44,6 +48,8 @@ pipelines:
     #   - step:
     #       name: Test (Editmode)
     #       image: unityci/editor:2022.3.5f1-base-1
+    #       caches:
+    #         - unity_cache
     #       script:
     #         - *unity_before_script
     #         - *import_env_variables
@@ -56,6 +62,8 @@ pipelines:
       - step:
           name: Build (Android)
           image: unityci/editor:2022.3.5f1-android-1
+          caches:
+            - unity_cache
           size: 2x
           script:
             - *unity_before_script
@@ -71,7 +79,10 @@ pipelines:
 
       - step:
           name: Build (Windows)
-          image: unityci/editor:2022.3.5f1-windows-mono-1
+          image: unityci/editor:2022.3.5f1-windows-mono-1#
+          caches:
+            - unity_cache
+          size: 2x
           script:
             - *unity_before_script
             - *import_env_variables
