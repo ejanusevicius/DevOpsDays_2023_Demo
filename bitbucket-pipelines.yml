@@ -79,7 +79,7 @@ pipelines:
 
       - step:
           name: Build (Windows)
-          image: unityci/editor:2022.3.5f1-windows-mono-1#
+          image: unityci/editor:2022.3.5f1-windows-mono-1
           caches:
             - unity-cache
           size: 2x
