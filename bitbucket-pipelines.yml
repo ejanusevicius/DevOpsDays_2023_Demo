@@ -21,12 +21,12 @@ pipelines:
     - step:
         name: Set up environment variables
         script:
-          - echo "export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo" >> export.sh
-          - echo "export CI_PROJECT_DIR=$BITBUCKET_CLONE_DIR" >> export.sh
-          - echo "export CI_PROJECT_NAME=$BITBUCKET_REPO_FULL_NAME" >> export.sh
+          - echo "export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo" >> environment_setup.sh
+          - echo "export CI_PROJECT_DIR=$BITBUCKET_CLONE_DIR" >> environment_setup.sh
+          - echo "export CI_PROJECT_NAME=$BITBUCKET_REPO_FULL_NAME" >> environment_setup.sh
           - echo "Environment variables have been set-up"
         artifacts:
-          - $ENVIRONMENT_SETUP_FILE
+          - environment_setup.sh
 
     # Stage: Test
     - parallel:
