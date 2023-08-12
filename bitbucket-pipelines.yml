@@ -14,14 +14,14 @@ definitions:
       chmod +x ./ci/test.sh && ./ci/test.sh
     
   
-  # steps:
-  #       name: Unity before script
-  #       script:
-  #         - echo "Running the before script..."
-  #         - chmod +x ./ci/before-script.sh && ./ci/before-script.sh
-  #         - echo "Before script done."
-  #   - step: &set_up_environment
-  #     - source export.sh
+  steps:
+        name: Unity before script
+        script:
+          - echo "Running the before script..."
+          - chmod +x ./ci/before-script.sh && ./ci/before-script.sh
+          - echo "Before script done."
+    - step: &set_up_environment
+      - source export.sh
 
 commonScript: &commonScript
   script:
