@@ -10,7 +10,6 @@ PACKAGE_MANIFEST_PATH="Packages/manifest.json"
 ${UNITY_EXECUTABLE:-xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' unity-editor} \
   -projectPath $UNITY_DIR \
   -runTests \
-  -manualLicenseFile /root/.local/share/unity3d/Unity/Unity_lic.ulf \
   -testPlatform $TEST_PLATFORM \
   -testResults $UNITY_DIR/$TEST_PLATFORM-results.xml \
   -logFile /dev/stdout \
