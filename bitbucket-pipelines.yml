@@ -39,6 +39,7 @@ pipelines:
           - echo $UNITY_LICENSE
           - echo $UNITY_USERNAME
           - echo $UNITY_PASSWORD
+
           - echo "export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo" >> export.sh
           - echo "export CI_PROJECT_DIR=$BITBUCKET_CLONE_DIR" >> export.sh
           - echo "export CI_PROJECT_NAME=$BITBUCKET_REPO_FULL_NAME" >> export.sh
@@ -48,16 +49,16 @@ pipelines:
           - export.sh
 
     # Stage: Test
-    # - parallel:
-    #   - step:
-    #       name: Test (Playmode)
-    #       image: unityci/editor:2022.3.5f1-base-1
-    #       script:
-    #         - *unity_before_script
-    #         - *import_env_variables
-    #         - export TEST_PLATFORM=editmode
-    #         - export TESTING_TYPE=NUNIT
-    #         - *run_tests
+    - parallel:
+      - step:
+          name: Test (Playmode)
+          image: unityci/editor:2022.3.5f1-base-1
+          script:
+            - *unity_before_script
+            - *import_env_variables
+            - export TEST_PLATFORM=editmode
+            - export TESTING_TYPE=NUNIT
+            - *run_tests
       # - step:
       #     name: Test (Editmode)
       #     # image: unityci/editor:2022.3.5f1-base-1
@@ -71,21 +72,21 @@ pipelines:
             # - chmod +x ./ci/test.sh && ./ci/test.sh
 
     # Stage: Build
-    # - parallel:
-    #   - step:
-    #       name: Build (Windows)
-    #       # image: unityci/editor:2022.3.5f1-windows-mono-1
-    #       script:
-    #         - echo "Build for windows goes here"
-    #       depends:
-    #         - Test (Playmode)
-    #         - Test (Editmode)
+    - parallel:
+      - step:
+          name: Build (Windows)
+          # image: unityci/editor:2022.3.5f1-windows-mono-1
+          script:
+            - echo "Build for windows goes here"
+          depends:
+            - Test (Playmode)
+            - Test (Editmode)
       
-      # - step:
-      #     name: Build (Android)
-      #     # image: unityci/editor:2022.3.5f1-android-1
-      #     script:
-      #       - echo "Build for android goes here"
-      #     depends:
-      #       - Test (Playmode)
-      #       - Test (Editmode)
+      - step:
+          name: Build (Android)
+          # image: unityci/editor:2022.3.5f1-android-1
+          script:
+            - echo "Build for android goes here"
+          depends:
+            - Test (Playmode)
+            - Test (Editmode)
