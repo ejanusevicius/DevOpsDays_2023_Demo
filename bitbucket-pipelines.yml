@@ -34,6 +34,8 @@ pipelines:
     - step:
         name: Set up environment variables
         script:
+          - echo "$TEST_ENV_SECURED"
+          - echo "$TEST_ENV"
           - echo "$UNITY_LICENSE"
           - echo "$UNITY_USERNAME"
           - echo "$UNITY_PASSWORD"
