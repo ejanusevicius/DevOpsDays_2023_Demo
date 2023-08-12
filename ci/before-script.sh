@@ -22,7 +22,7 @@ then
     fi
 fi
 
-if [ -n "$UNITY_LICENSE_BASE64"]
+if [ -n "$UNITY_LICENSE_BASE64" ]
 then
     echo "Found an encoded unity license as '\$UNITY_LICENSE_BASE64'"
     echo "Decoding & writing '\$UNITY_LICENSE_BASE64' to license file ${unity_license_destination}"
