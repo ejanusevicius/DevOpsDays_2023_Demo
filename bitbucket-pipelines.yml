@@ -33,12 +33,10 @@ pipelines:
     # Stage: Prepare
     - step:
         name: Set up environment variables
-        script:v
-
+        script:
           - echo "$UNITY_LICENSE"
           - echo "$UNITY_USERNAME"
           - echo "$UNITY_PASSWORD"
-
           - echo "export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo" >> export.sh
           - echo "export CI_PROJECT_DIR=$BITBUCKET_CLONE_DIR" >> export.sh
           - echo "export CI_PROJECT_NAME=$BITBUCKET_REPO_FULL_NAME" >> export.sh
