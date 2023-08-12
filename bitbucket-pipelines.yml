@@ -56,6 +56,7 @@ pipelines:
       - step:
           name: Build (Android)
           image: unityci/editor:2022.3.5f1-android-1
+          size: medium
           script:
             - *unity_before_script
             - *import_env_variables
@@ -65,6 +66,8 @@ pipelines:
           depends:
             - Test (Playmode)
             - Test (Editmode)
+          artifacts:
+            - devopsdays_demo/Builds/Android
 
       - step:
           name: Build (Windows)
@@ -78,3 +81,5 @@ pipelines:
           depends:
             - Test (Playmode)
             - Test (Editmode)
+          artifacts:
+            - devopsdays_demo/Builds/StandaloneWindows64
