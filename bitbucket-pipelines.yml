@@ -17,7 +17,7 @@ definitions:
     run_build: &run_build
       chmod +x ./ci/build.sh && ./ci/build.sh
   caches:
-    unity_cache: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
+    unity-cache: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
 
 pipelines:
   default:
@@ -38,7 +38,7 @@ pipelines:
     #       name: Test (Playmode)
     #       image: unityci/editor:2022.3.5f1-base-1
     #       caches:
-    #         - unity_cache
+    #         - unity-cache
     #       script:
     #         - *unity_before_script
     #         - *import_env_variables
@@ -49,7 +49,7 @@ pipelines:
     #       name: Test (Editmode)
     #       image: unityci/editor:2022.3.5f1-base-1
     #       caches:
-    #         - unity_cache
+    #         - unity-cache
     #       script:
     #         - *unity_before_script
     #         - *import_env_variables
@@ -63,7 +63,7 @@ pipelines:
           name: Build (Android)
           image: unityci/editor:2022.3.5f1-android-1
           caches:
-            - unity_cache
+            - unity-cache
           size: 2x
           script:
             - *unity_before_script
@@ -81,7 +81,7 @@ pipelines:
           name: Build (Windows)
           image: unityci/editor:2022.3.5f1-windows-mono-1#
           caches:
-            - unity_cache
+            - unity-cache
           size: 2x
           script:
             - *unity_before_script
