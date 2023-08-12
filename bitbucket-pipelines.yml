@@ -54,6 +54,7 @@ pipelines:
           name: Test (Playmode)
           image: unityci/editor:2022.3.5f1-base-1
           script:
+            - pwd
             - *unity_before_script
             - cat /root/.local/share/unity3d/Unity/Unity_lic.ulf
             - cd /root/.local/share/unity3d/Unity/
