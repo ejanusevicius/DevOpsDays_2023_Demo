@@ -55,10 +55,9 @@ pipelines:
           image: unityci/editor:2022.3.5f1-base-1
           script:
             - pwd
+            # - mv 
             - *unity_before_script
-            - cat /root/.local/share/unity3d/Unity/Unity_lic.ulf
-            - cd /root/.local/share/unity3d/Unity/
-            - ls
+            - ls 
             - *import_env_variables
             - export TEST_PLATFORM=editmode
             - export TESTING_TYPE=NUNIT
