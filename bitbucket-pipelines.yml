@@ -57,6 +57,8 @@ pipelines:
           name: Build (Android)
           image: unityci/editor:2022.3.5f1-android-1
           script:
+            - *unity_before_script
+            - *import_env_variables
             - export BUILD_TARGET=Android
             - export BUILD_NAME=Build-Android-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
             - *run_build
@@ -68,6 +70,8 @@ pipelines:
           name: Build (Windows)
           image: unityci/editor:2022.3.5f1-windows-mono-1
           script:
+            - *unity_before_script
+            - *import_env_variables
             - export BUILD_TARGET=StandaloneWindows64
             - export BUILD_NAME=Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
             - *run_build
