@@ -1,10 +1,16 @@
 image: atlassian/default-image:3
 
+pipelines:
+  default:
+    - step: *set_up_environment_vars
+    # - parallel:
+    #   - step: *test_playmode
+    #   - step: *test_editmode
+    - parallel:
+      - step: *build_windows
+      # - step: *build_android
+
 definitions:
-  variables:
-    UNITY_CI_IMAGE: unityci/editor
-    IMAGE_VERSION: 1
-    UNITY_VERSION: 2022.3.5f1
   scripts: 
     import_env_variables: &import_env_variables
       source environment_setup.sh
@@ -18,84 +24,75 @@ definitions:
       chmod +x ./ci/build.sh && ./ci/build.sh
   caches:
     unity-cache: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
-
-pipelines:
-  default:
-    # Stage: Prepare
-    - step:
+  variables:
+    UNITY_CI_IMAGE: unityci/editor
+    IMAGE_VERSION: 1
+    UNITY_VERSION: 2022.3.5f1
+  steps:
+    - step: &set_up_environment_vars
         name: Set up environment variables
         script:
           - echo "export UNITY_DIR=$BITBUCKET_CLONE_DIR/devopsdays_demo" >> environment_setup.sh
           - echo "export CI_PROJECT_DIR=$BITBUCKET_CLONE_DIR" >> environment_setup.sh
           - echo "export CI_PROJECT_NAME=$BITBUCKET_REPO_FULL_NAME" >> environment_setup.sh
           - echo "Environment variables have been set-up"
-        when:
-          condition:
-            - "$UNITY_LICENSE"
         artifacts:
           - environment_setup.sh
-
-    # Stage: Test
-    # - parallel:
-    #   - step:
-    #       name: Test (Playmode)
-    #       image: unityci/editor:2022.3.5f1-base-1
-    #       caches:
-    #         - unity-cache
-    #       script:
-    #         - *unity_before_script
-    #         - *import_env_variables
-    #         - *set_testing_type_as_NUNIT
-    #         - export TEST_PLATFORM=playmode
-    #         - *run_tests
-    #   - step:
-    #       name: Test (Editmode)
-    #       image: unityci/editor:2022.3.5f1-base-1
-    #       caches:
-    #         - unity-cache
-    #       script:
-    #         - *unity_before_script
-    #         - *import_env_variables
-    #         - *set_testing_type_as_NUNIT
-    #         - export TEST_PLATFORM=editmode
-    #         - *run_tests
-
-    # Stage: Build
-    - parallel:
-    #   - step:
-    #       name: Build (Android)
-    #       image: unityci/editor:2022.3.5f1-android-1
-    #       caches:
-    #         - unity-cache
-    #       size: 2x
-    #       script:
-    #         - *unity_before_script
-    #         - *import_env_variables
-    #         - export BUILD_TARGET=Android
-    #         - export BUILD_NAME=Build-Android-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
-    #         - *run_build
-    #         - zip -r Build-StandaloneWindows64.zip devopsdays_demo/Builds/StandaloneWindows64
-    #       depends:
-    #         - Test (Playmode)
-    #         - Test (Editmode)
-    #       artifacts:
-    #         - Build-StandaloneWindows64.zip
-
-      - step:
-          name: Build (Windows)
-          image: unityci/editor:2022.3.5f1-windows-mono-1
-          caches:
-            - unity-cache
-          size: 2x
-          script:
-            - *unity_before_script
-            - *import_env_variables
-            - export BUILD_TARGET=StandaloneWindows64
-            - export BUILD_NAME=Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
-            - *run_build
-            - zip -r Build-StandaloneWindows64.zip devopsdays_demo/Builds/StandaloneWindows64
-          depends:
-            - Test (Playmode)
-            - Test (Editmode)
-          artifacts:
-            - Build-StandaloneWindows64.zip
+    - step: &test_playmode
+        name: Test (Playmode)
+        image: unityci/editor:2022.3.5f1-base-1
+        caches:
+          - unity-cache
+        script:
+          - *unity_before_script
+          - *import_env_variables
+          - *set_testing_type_as_NUNIT
+          - export TEST_PLATFORM=playmode
+          - *run_tests
+    - step: &test_editmode
+        name: Test (Editmode)
+        image: unityci/editor:2022.3.5f1-base-1
+        caches:
+          - unity-cache
+        script:
+          - *unity_before_script
+          - *import_env_variables
+          - *set_testing_type_as_NUNIT
+          - export TEST_PLATFORM=editmode
+          - *run_tests
+    - step: &build_windows
+        name: Build (Windows)
+        image: unityci/editor:2022.3.5f1-windows-mono-1
+        caches:
+          - unity-cache
+        size: 2x
+        script:
+          - *unity_before_script
+          - *import_env_variables
+          - export BUILD_TARGET=StandaloneWindows64
+          - export BUILD_NAME=Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
+          - *run_build
+          - zip -r Build-StandaloneWindows64.zip devopsdays_demo/Builds/StandaloneWindows64
+        depends:
+          - Test (Playmode)
+          - Test (Editmode)
+        artifacts:
+          - Build-StandaloneWindows64.zip
+    - step: &build_android
+        name: Build (Android)
+        image: unityci/editor:2022.3.5f1-android-1
+        caches:
+          - unity-cache
+        size: 2x
+        script:
+          - *unity_before_script
+          - *import_env_variables
+          - export BUILD_TARGET=Android
+          - export BUILD_NAME=Build-Android-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
+          - *run_build
+          - zip -r Build-Android.zip devopsdays_demo/Builds/Android
+        depends:
+          - Test (Playmode)
+          - Test (Editmode)
+        artifacts:
+          - Build-Android.zip
