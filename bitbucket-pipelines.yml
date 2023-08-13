@@ -95,3 +95,4 @@ pipelines:
             - Test (Editmode)
           artifacts:
             - devopsdays_demo/Builds/StandaloneWindows64
+            - environment_setup.sh
