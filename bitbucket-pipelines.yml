@@ -102,12 +102,14 @@ pipelines:
         - step: *build_windows
         - step: *build_android
     feature-*:
-      - step: 
-          <<: *set_up_environment_vars
+      - step: *set_up_environment_vars
           trigger: manual
       - parallel:
-        - step: *test_playmode
+        - step: 
+          <<: *test_playmode
+          trigger: manual
         - step: *test_editmode
+          trigger: manual
       - parallel:
         - step: *build_windows
         - step: *build_android
