@@ -75,7 +75,7 @@ pipelines:
             - Test (Playmode)
             - Test (Editmode)
           artifacts:
-            - devopsdays_demo/Builds/Android
+            - devopsdays_demo
 
       - step:
           name: Build (Windows)
@@ -86,11 +86,11 @@ pipelines:
           script:
             - *unity_before_script
             - *import_env_variables
-            - export BUILD_TARGET=StandaloneWindows64
+            - export BUILD_TA RGET=StandaloneWindows64
             - export BUILD_NAME=Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
             - *run_build
           depends:
             - Test (Playmode)
             - Test (Editmode)
           artifacts:
-            - devopsdays_demo/Builds/StandaloneWindows64
+            - devopsdays_demo
