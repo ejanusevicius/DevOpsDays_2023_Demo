@@ -59,23 +59,23 @@ pipelines:
 
     # Stage: Build
     - parallel:
-      - step:
-          name: Build (Android)
-          image: unityci/editor:2022.3.5f1-android-1
-          caches:
-            - unity-cache
-          size: 2x
-          script:
-            - *unity_before_script
-            - *import_env_variables
-            - export BUILD_TARGET=Android
-            - export BUILD_NAME=Build-Android-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
-            - *run_build
-          depends:
-            - Test (Playmode)
-            - Test (Editmode)
-          artifacts:
-            - devopsdays_demo
+      # - step:
+      #     name: Build (Android)
+      #     image: unityci/editor:2022.3.5f1-android-1
+      #     caches:
+      #       - unity-cache
+      #     size: 2x
+      #     script:
+      #       - *unity_before_script
+      #       - *import_env_variables
+      #       - export BUILD_TARGET=Android
+      #       - export BUILD_NAME=Build-Android-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
+      #       - *run_build
+      #     depends:
+      #       - Test (Playmode)
+      #       - Test (Editmode)
+      #     artifacts:
+      #       - devopsdays_demo/Builds/Android
 
       - step:
           name: Build (Windows)
@@ -86,11 +86,12 @@ pipelines:
           script:
             - *unity_before_script
             - *import_env_variables
-            - export BUILD_TA RGET=StandaloneWindows64
+            - export BUILD_TARGET=StandaloneWindows64
             - export BUILD_NAME=Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
             - *run_build
+            - ls
           depends:
             - Test (Playmode)
             - Test (Editmode)
           artifacts:
-            - devopsdays_demo
+            - devopsdays_demo/Builds/StandaloneWindows64
