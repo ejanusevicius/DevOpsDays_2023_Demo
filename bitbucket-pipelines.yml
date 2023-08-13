@@ -29,6 +29,9 @@ pipelines:
           - echo "export CI_PROJECT_DIR=$BITBUCKET_CLONE_DIR" >> environment_setup.sh
           - echo "export CI_PROJECT_NAME=$BITBUCKET_REPO_FULL_NAME" >> environment_setup.sh
           - echo "Environment variables have been set-up"
+        when:
+          condition:
+            - "$UNITY_LICENSE" || "$UNITY_LICENSE_BASE64"
         artifacts:
           - environment_setup.sh
 
@@ -59,23 +62,24 @@ pipelines:
 
     # Stage: Build
     - parallel:
-      # - step:
-      #     name: Build (Android)
-      #     image: unityci/editor:2022.3.5f1-android-1
-      #     caches:
-      #       - unity-cache
-      #     size: 2x
-      #     script:
-      #       - *unity_before_script
-      #       - *import_env_variables
-      #       - export BUILD_TARGET=Android
-      #       - export BUILD_NAME=Build-Android-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
-      #       - *run_build
-      #     depends:
-      #       - Test (Playmode)
-      #       - Test (Editmode)
-      #     artifacts:
-      #       - devopsdays_demo/Builds/Android
+    #   - step:
+    #       name: Build (Android)
+    #       image: unityci/editor:2022.3.5f1-android-1
+    #       caches:
+    #         - unity-cache
+    #       size: 2x
+    #       script:
+    #         - *unity_before_script
+    #         - *import_env_variables
+    #         - export BUILD_TARGET=Android
+    #         - export BUILD_NAME=Build-Android-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
+    #         - *run_build
+    #         - zip -r Build-StandaloneWindows64.zip devopsdays_demo/Builds/StandaloneWindows64
+    #       depends:
+    #         - Test (Playmode)
+    #         - Test (Editmode)
+    #       artifacts:
+    #         - Build-StandaloneWindows64.zip
 
       - step:
           name: Build (Windows)
@@ -90,11 +94,8 @@ pipelines:
             - export BUILD_NAME=Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
             - *run_build
             - zip -r Build-StandaloneWindows64.zip devopsdays_demo/Builds/StandaloneWindows64
-            # - tar -cf Build-StandaloneWindows64.zip devopsdays_demo/Builds/StandaloneWindows64
-            - ls
           depends:
             - Test (Playmode)
             - Test (Editmode)
           artifacts:
-            - environment_setup.sh
             - Build-StandaloneWindows64.zip
