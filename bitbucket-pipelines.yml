@@ -31,7 +31,7 @@ pipelines:
           - echo "Environment variables have been set-up"
         when:
           condition:
-            - "$UNITY_LICENSE" || "$UNITY_LICENSE_BASE64"
+            - "$UNITY_LICENSE"
         artifacts:
           - environment_setup.sh
 
