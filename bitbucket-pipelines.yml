@@ -89,11 +89,11 @@ pipelines:
             - export BUILD_TARGET=StandaloneWindows64
             - export BUILD_NAME=Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH
             - *run_build
-            - tar -czvf Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH.tar.gz devopsdays_demo/Builds/StandaloneWindows64
+            - tar -czvf Build-StandaloneWindows64.tar.gz devopsdays_demo/Builds/StandaloneWindows64
             - ls
           depends:
             - Test (Playmode)
             - Test (Editmode)
           artifacts:
             - environment_setup.sh
-            - Build-StandaloneWindows64-$BITBUCKET_COMMIT-$BITBUCKET_BRANCH.tar.gz
+            - Build-StandaloneWindows64.tar.gz
