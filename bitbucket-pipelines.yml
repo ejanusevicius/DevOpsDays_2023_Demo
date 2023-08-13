@@ -96,4 +96,4 @@ pipelines:
             - Test (Editmode)
           artifacts:
             - environment_setup.sh
-            - Build-StandaloneWindows64.tar.gz
+            - Build-StandaloneWindows64.zip
