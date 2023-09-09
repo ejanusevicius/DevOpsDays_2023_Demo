@@ -13,7 +13,8 @@ definitions:
     run_build: &run_build
       chmod +x ./ci/build.sh && ./ci/build.sh
   caches:
-    unity-cache: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
+    build-cache-windows: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
+    build-cache-android: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
   steps:
     - step: &set_up_environment_vars
         name: Set up environment variables
@@ -28,7 +29,7 @@ definitions:
         name: Test (Playmode)
         image: unityci/editor:2022.3.5f1-base-1
         caches:
-          - unity-cache
+          - build-cache-windows
         script:
           - *unity_before_script
           - *import_env_variables
@@ -39,7 +40,7 @@ definitions:
         name: Test (Editmode)
         image: unityci/editor:2022.3.5f1-base-1
         caches:
-          - unity-cache
+          - build-cache-windows
         script:
           - *unity_before_script
           - *import_env_variables
@@ -50,7 +51,7 @@ definitions:
         name: Build (Windows)
         image: unityci/editor:2022.3.5f1-windows-mono-1
         caches:
-          - unity-cache
+          - build-cache-windows
         size: 2x
         script:
           - *unity_before_script
@@ -68,7 +69,7 @@ definitions:
         name: Build (Android)
         image: unityci/editor:2022.3.5f1-android-1
         caches:
-          - unity-cache
+          - build-cache-android
         size: 2x
         script:
           - *unity_before_script
