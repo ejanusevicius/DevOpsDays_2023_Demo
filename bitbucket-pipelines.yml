@@ -28,8 +28,6 @@ definitions:
     - step: &test_playmode
         name: Test (Playmode)
         image: unityci/editor:2022.3.5f1-base-1
-        caches:
-          - build-cache-windows
         script:
           - *unity_before_script
           - *import_env_variables
@@ -39,8 +37,6 @@ definitions:
     - step: &test_editmode
         name: Test (Editmode)
         image: unityci/editor:2022.3.5f1-base-1
-        caches:
-          - build-cache-windows
         script:
           - *unity_before_script
           - *import_env_variables
