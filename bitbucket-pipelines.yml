@@ -89,7 +89,7 @@ pipelines:
         - step: *test_editmode
       - parallel:
         - step: *build_windows
-        - step: *build_android
+        # - step: *build_android
     main:  
       - step: *set_up_environment_vars
       - parallel:
@@ -97,7 +97,7 @@ pipelines:
         - step: *test_editmode
       - parallel:
         - step: *build_windows
-        - step: *build_android
+        # - step: *build_android
     feature-*:
       - step: *set_up_environment_vars
       - parallel:
@@ -105,4 +105,4 @@ pipelines:
         - step: *test_editmode
       - parallel:
         - step: *build_windows
-        - step: *build_android
+        # - step: *build_android
