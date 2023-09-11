@@ -3,6 +3,9 @@
 ## Summary
 This is a proof of concept CI Pipeline developed as part of the "Pints, DevOps & Consulting for VR" ignite talk for the DevOpsDays London 2023 conference. This POC is largely based on the [unity3d-gitlab-ci-example](https://gitlab.com/game-ci/unity3d-gitlab-ci-example/) project by [GameCI](https://game.ci/). **This repository also includes the same pipeline built in GitLab & GitHub (this was done as part of the research stage).**
 
+## Usage
+Fork this repository into BitBucket repo that has BitBucket Pipelines enabled and the workflow should start running automatically.
+
 ## Workflow
 The goal of the whole pipeline is to test and build Unity applications. After a workflow is run, it will expose the build artefacts so that they can be downloaded. Below is a visual representation of the pipeline:
 
