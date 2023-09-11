@@ -3,7 +3,6 @@
 ## Summary
 This is a proof of concept CI Pipeline developed as part of the "Pints, DevOps & Consulting for VR" ignite talk for the DevOpsDays London 2023 conference. This POC is largely based on the [unity3d-gitlab-ci-example](https://gitlab.com/game-ci/unity3d-gitlab-ci-example/) project by [GameCI](https://game.ci/). **This repository also includes the same pipeline built in GitLab & GitHub (this was done as part of the research stage).**
 
-
 ## Workflow
 The goal of the whole pipeline is to test and build Unity applications. After a workflow is run, it will expose the build artefacts so that they can be downloaded. Below is a visual representation of the pipeline:
 
@@ -24,5 +23,5 @@ There are a few limitations to running this workflow in BitBucket instead of a s
     * A custom `set_up_environment_vars` step that would create the environment variables, put them into a Bash script, and expose that as an artifact (`environment_setup.sh`) for other steps to reuse.
     * A custom `import_env_variables` step that would run the `environment_setup.sh` script and set the environment variables.
 
-### Recommendations
+## Recommendations
 I highly recommend setting up self-hosted runners for any larger project, as it offers more customisation options for the environment and hardware in which the workflow will run, allowing you to circumvent many of the limitations mentioned above.
