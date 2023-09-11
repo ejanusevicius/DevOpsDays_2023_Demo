@@ -22,10 +22,16 @@ then
     fi
 fi
 
-if [ -n "$UNITY_LICENSE" ]
+if [ -n "$UNITY_LICENSE_BASE64" ]
 then
+    echo "Found an encoded unity license as '\$UNITY_LICENSE_BASE64'"
+    echo "Decoding & writing '\$UNITY_LICENSE_BASE64' to license file ${unity_license_destination}"
+    echo "${UNITY_LICENSE_BASE64}" | base64 -d | tr -d '\r' > ${unity_license_destination}
+elif [ -n "$UNITY_LICENSE" ]
+then
+    echo "Found unity license as '\$UNITY_LICENSE'"
     echo "Writing '\$UNITY_LICENSE' to license file ${unity_license_destination}"
     echo "${UNITY_LICENSE}" | tr -d '\r' > ${unity_license_destination}
 else
-    echo "'\$UNITY_LICENSE' env var not found"
+    echo "'\$UNITY_LICENSE_BASE64' or '\$UNITY_LICENSE' env var not found"
 fi
