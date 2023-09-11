@@ -1,6 +1,7 @@
 image: atlassian/default-image:3
 
 definitions:
+
   scripts:
     import_env_variables: &import_env_variables
       source environment_setup.sh
@@ -12,9 +13,11 @@ definitions:
       chmod +x ./ci/test.sh && ./ci/test.sh
     run_build: &run_build
       chmod +x ./ci/build.sh && ./ci/build.sh
+
   caches:
     build-cache-windows: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
     build-cache-android: $BITBUCKET_CLONE_DIR/devopsdays_demo/Library/
+
   steps:
     - step: &set_up_environment_vars
         name: Set up environment variables
@@ -82,7 +85,8 @@ definitions:
 
 pipelines:
   branches:
-    release-*:
+
+    '{release-*,main}':
       - step: *set_up_environment_vars
       - parallel:
         - step: *test_playmode
@@ -90,14 +94,7 @@ pipelines:
       - parallel:
         - step: *build_windows
         - step: *build_android
-    main:  
-      - step: *set_up_environment_vars
-      - parallel:
-        - step: *test_playmode
-        - step: *test_editmode
-      - parallel:
-        - step: *build_windows
-        - step: *build_android
+
     feature-*:
       - step: *set_up_environment_vars
       - parallel:
