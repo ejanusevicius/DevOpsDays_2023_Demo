@@ -104,13 +104,11 @@ pipelines:
         - step: *test_playmode
         - step: *test_editmode
       - parallel:
-        - step: 
+        - step:
+            <<: *build_windows
             name: "Build (Windows) - Manual"
             trigger: manual
-            script:
-              - *build_windows
         - step: 
+            <<: *build_android
             name: "Build (Android) - Manual"
             trigger: manual
-            script:
-              - *build_android
